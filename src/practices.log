@@ -1,0 +1,730 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      18.0
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user 2-core  perpetual
+Serial number: 501806323834
+  Licensed to: Miklos Koren
+               CEU MicroData
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do code/analyze/practices.do 
+
+. clear all
+
+. use "input/wms-Hungary-2018/wms_hu_analysis.dta"
+
+. mvdecode _all, mv(-99)
+  account_id: string variable ignored
+    firmname: string variable ignored
+         cty: string variable ignored
+   selfscore: 1 missing value generated
+ competition: 9 missing values generated
+    firm_age: 3 missing values generated
+   plant_age: 1 missing value generated
+    emp_firm: 2 missing values generated
+      xsite1: 3 missing values generated
+      xsite2: 7 missing values generated
+    exported: 1 missing value generated
+     mne_cty: string variable ignored
+other_owne~p: string variable ignored
+n_family_m~g: 5 missing values generated
+children_c~t: 8 missing values generated
+boys_current: 8 missing values generated
+children_f~r: 5 missing values generated
+ boys_former: 5 missing values generated
+    central4: 2 missing values generated
+    central5: 13 missing values generated
+    central6: 7 missing values generated
+    central7: 4 missing values generated
+direct_rep~t: 3 missing values generated
+   percent_m: 4 missing values generated
+    degree_m: 8 missing values generated
+   degree_nm: 4 missing values generated
+    female_m: 16 missing values generated
+   female_nm: 6 missing values generated
+       union: 18 missing values generated
+mng_left12~s: 2 missing values generated
+        hols: 3 missing values generated
+   sickleave: 3 missing values generated
+    patleave: 12 missing values generated
+ ctrts_other: string variable ignored
+     analyst: string variable ignored
+         age: 1 missing value generated
+    position: string variable ignored
+  outsourced: 6 missing values generated
+        v128: 1 missing value generated
+        v130: 5 missing values generated
+        v131: 6 missing values generated
+      region: string variable ignored
+        type: string variable ignored
+
+. generate year = 2018
+
+. 
+. * some respondents seem to have given start year
+. replace firm_age = 2018 - firm_age if firm_age > 1800
+(4 real changes made)
+
+. generate birth_year_firm = 2018 - firm_age
+(3 missing values generated)
+
+. 
+. local production termel gyart gyárt uzem üzem oper techn műszaki projekt tele
+> phely
+
+. local ceo ügyvezet vezér elnük vezer cégvez tulaj ugyvez
+
+. 
+. replace position = ustrlower(position)
+(119 real changes made)
+
+. generate str pos = ""
+(119 missing values generated)
+
+. foreach pos in production ceo {
+  2.     foreach word in ``pos'' {
+  3.         replace pos = "`pos'" if ustrpos(position, "`word'")
+  4.     }
+  5. }
+variable pos was str1 now str10
+(48 real changes made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(13 real changes made)
+(1 real change made)
+(2 real changes made)
+(2 real changes made)
+(1 real change made)
+(1 real change made)
+(19 real changes made)
+(3 real changes made)
+(1 real change made)
+(1 real change made)
+(2 real changes made)
+(1 real change made)
+(3 real changes made)
+
+. replace pos = "other" if missing(pos)
+(20 real changes made)
+
+. 
+. generate birth_year_respondent = 2018 - age
+(1 missing value generated)
+
+. 
+. * merge on CEOs from cegjegyzek - they may not be the respondent, though
+. merge m:1 tax_id year using "temp/wms-panel.dta", keep(master match) keepusin
+> g(expat entrepreneur birth_year first_year_in_market) nogenerate
+(variable tax_id was long, now double to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            16
+        from master                        16  
+        from using                          0  
+
+    Matched                               103  
+    -----------------------------------------
+
+. generate in_cegjegyzek = !missing(birth_year)
+
+. rename first_year_in_market entry_year
+
+. foreach X in expat entrepreneur birth_year entry_year {
+  2.     rename `X' `X'_ceo
+  3. } 
+
+. * there may be multiple CEOs, use the younger
+. replace birth_year_ceo = max(birth_year_respondent, birth_year_ceo) if pos ==
+>  "ceo"
+(19 real changes made)
+
+. replace birth_year_respondent = birth_year_ceo if pos == "ceo"
+(6 real changes made)
+
+. 
+. local T1 1950
+
+. local T2 1980
+
+. local k 5
+
+. local offset 25
+
+. replace birth_year_firm = birth_year_firm - `offset'
+(116 real changes made)
+
+. foreach i in ceo respondent firm {
+  2.     generate cohort_`i' = birth_year_`i'
+  3.     replace cohort_`i' = `T1' if cohort_`i' <= `T1'
+  4.     replace cohort_`i' = `T2' if cohort_`i' > `T2' & !missing(cohort_`i')
+  5.     replace cohort_`i' = int(cohort_`i'/`k') * `k'
+  6.     * people who were 20 in 1985 could already been exposed to business ed
+> ucation
+.     generate byte modern_`i' = birth_year_`i' >= 1965 if !missing(birth_year_
+> `i')
+  7.     generate byte goldrush_`i' = inrange(birth_year_`i', 1965, 1974)
+  8. }
+(15 missing values generated)
+(8 real changes made)
+(7 real changes made)
+(72 real changes made)
+(15 missing values generated)
+(4 real changes made)
+(25 real changes made)
+(67 real changes made)
+(3 missing values generated)
+(19 real changes made)
+(8 real changes made)
+(79 real changes made)
+(3 missing values generated)
+
+. replace birth_year_firm = birth_year_firm + `offset'
+(116 real changes made)
+
+. replace cohort_firm = cohort_firm + `offset'
+(116 real changes made)
+
+. 
+. tabulate cohort_firm
+
+cohort_firm |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       1975 |         20       17.24       17.24
+       1980 |          3        2.59       19.83
+       1985 |         11        9.48       29.31
+       1990 |         35       30.17       59.48
+       1995 |         23       19.83       79.31
+       2000 |         16       13.79       93.10
+       2005 |          8        6.90      100.00
+------------+-----------------------------------
+      Total |        116      100.00
+
+. tabulate cohort_ceo
+
+ cohort_ceo |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       1950 |         19       18.27       18.27
+       1955 |         15       14.42       32.69
+       1960 |         13       12.50       45.19
+       1965 |         18       17.31       62.50
+       1970 |         20       19.23       81.73
+       1975 |         11       10.58       92.31
+       1980 |          8        7.69      100.00
+------------+-----------------------------------
+      Total |        104      100.00
+
+. tabulate cohort_respondent
+
+cohort_resp |
+     ondent |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       1950 |          7        5.88        5.88
+       1955 |         11        9.24       15.13
+       1960 |         10        8.40       23.53
+       1965 |         14       11.76       35.29
+       1970 |         19       15.97       51.26
+       1975 |         26       21.85       73.11
+       1980 |         32       26.89      100.00
+------------+-----------------------------------
+      Total |        119      100.00
+
+. tabulate modern_ceo modern_respondent
+
+           |   modern_respondent
+modern_ceo |         0          1 |     Total
+-----------+----------------------+----------
+         0 |        21         26 |        47 
+         1 |         4         53 |        57 
+-----------+----------------------+----------
+     Total |        25         79 |       104 
+
+. tabulate modern_respondent goldrush_respondent
+
+modern_res |  goldrush_respondent
+   pondent |         0          1 |     Total
+-----------+----------------------+----------
+         0 |        28          0 |        28 
+         1 |        58         33 |        91 
+-----------+----------------------+----------
+     Total |        86         33 |       119 
+
+. 
+. summarize zmanagement [aw=weight], detail
+
+       MGMT: Average of zscores of lean* perf* talent*
+                          questions
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%    -1.950181      -2.055704
+ 5%    -1.507456      -1.950181
+10%    -1.342125      -1.949001       Obs                 119
+25%    -.7650371      -1.944442       Sum of wgt.  201.883768
+
+50%     .1401033                      Mean           .0068065
+                        Largest       Std. dev.      .9850203
+75%     .7622324       1.577622
+90%     1.268672       1.713289       Variance       .9702649
+95%     1.485624       1.718453       Skewness      -.1740263
+99%     1.857234       1.857234       Kurtosis       2.020954
+
+. regress zmanagement i.cohort_firm [pw=weight], cluster(tax_id)
+(sum of wgt is 194.7243266)
+
+Linear regression                               Number of obs     =        116
+                                                F(6, 115)         =       2.04
+                                                Prob > F          =     0.0665
+                                                R-squared         =     0.1104
+                                                Root MSE          =     .96122
+
+                               (Std. err. adjusted for 116 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zmanagement | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ cohort_firm |
+       1980  |  -1.053402   .6038954    -1.74   0.084    -2.249603     .142798
+       1985  |  -.3664869   .3863626    -0.95   0.345    -1.131797    .3988231
+       1990  |  -.6147011   .3102418    -1.98   0.050     -1.22923   -.0001717
+       1995  |  -.8679927    .338915    -2.56   0.012    -1.539318   -.1966673
+       2000  |   -.072858   .3461453    -0.21   0.834    -.7585053    .6127892
+       2005  |   -.287994   .4709303    -0.61   0.542    -1.220816    .6448283
+             |
+       _cons |   .4583797    .265353     1.73   0.087    -.0672335    .9839929
+------------------------------------------------------------------------------
+
+. regress zmanagement i.cohort_ceo [pw=weight], cluster(tax_id)
+(sum of wgt is 176.9669618)
+
+Linear regression                               Number of obs     =        104
+                                                F(6, 102)         =       2.60
+                                                Prob > F          =     0.0218
+                                                R-squared         =     0.1439
+                                                Root MSE          =     .95839
+
+                               (Std. err. adjusted for 103 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zmanagement | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  cohort_ceo |
+       1955  |   .7390012   .3693167     2.00   0.048     .0064633    1.471539
+       1960  |   .9933688   .3120409     3.18   0.002     .3744371    1.612301
+       1965  |   1.061262   .3294603     3.22   0.002     .4077789    1.714745
+       1970  |    .896434   .3206601     2.80   0.006     .2604062    1.532462
+       1975  |   .8127769   .3884463     2.09   0.039     .0422956    1.583258
+       1980  |   .3308476    .397862     0.83   0.408    -.4583098    1.120005
+             |
+       _cons |  -.7472984   .2332457    -3.20   0.002     -1.20994   -.2846566
+------------------------------------------------------------------------------
+
+. regress zmanagement i.cohort_respondent [pw=weight], cluster(tax_id)
+(sum of wgt is 201.8837681)
+
+Linear regression                               Number of obs     =        119
+                                                F(6, 117)         =       5.77
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2159
+                                                Root MSE          =     .89526
+
+                               (Std. err. adjusted for 118 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zmanagement | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+cohort_res~t |
+       1955  |    .890135   .4006381     2.22   0.028     .0966922    1.683578
+       1960  |   .9362498   .4530804     2.07   0.041     .0389478    1.833552
+       1965  |   1.867426   .3796055     4.92   0.000     1.115637    2.619214
+       1970  |   1.500006    .350844     4.28   0.000     .8051784    2.194835
+       1975  |   .7447815   .3760805     1.98   0.050    -.0000262    1.489589
+       1980  |   1.234647   .3501629     3.53   0.001     .5411677    1.928126
+             |
+       _cons |  -1.081967   .3092512    -3.50   0.001    -1.694423   -.4695116
+------------------------------------------------------------------------------
+
+. regress zmanagement i.cohort_respondent i.cohort_ceo [pw=weight], cluster(tax
+> _id)
+(sum of wgt is 176.9669618)
+
+Linear regression                               Number of obs     =        104
+                                                F(12, 102)        =       3.64
+                                                Prob > F          =     0.0002
+                                                R-squared         =     0.2816
+                                                Root MSE          =     .90642
+
+                               (Std. err. adjusted for 103 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zmanagement | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+cohort_res~t |
+       1955  |   .4434962   .4592714     0.97   0.337    -.4674664    1.354459
+       1960  |   .3277811   .5756494     0.57   0.570    -.8140168    1.469579
+       1965  |   1.302069   .5101732     2.55   0.012     .2901427    2.313995
+       1970  |   1.129248   .4519917     2.50   0.014      .232725    2.025772
+       1975  |   .2021082   .4361416     0.46   0.644    -.6629765    1.067193
+       1980  |   .9630967   .4470686     2.15   0.034     .0763382    1.849855
+             |
+  cohort_ceo |
+       1955  |   .4727121    .347626     1.36   0.177    -.2168025    1.162227
+       1960  |   .7253908   .3297135     2.20   0.030     .0714055    1.379376
+       1965  |   .5107977   .3777305     1.35   0.179     -.238429    1.260024
+       1970  |   .3115313   .3249116     0.96   0.340    -.3329292    .9559919
+       1975  |   .8321426   .4026981     2.07   0.041     .0333928    1.630892
+       1980  |  -.1548408   .4731391    -0.33   0.744     -1.09331    .7836283
+             |
+       _cons |  -1.081967    .320736    -3.37   0.001    -1.718146    -.445789
+------------------------------------------------------------------------------
+
+. 
+. foreach X of varlist zmanagement zoperations zmonitoring ztargets zpeople {
+  2.     regress `X' modern_firm [pw=weight], cluster(tax_id)
+  3.     regress `X' modern_ceo [pw=weight], cluster(tax_id)
+  4.     regress `X' modern_respondent [pw=weight], cluster(tax_id)
+  5.     regress `X' modern_ceo modern_respondent [pw=weight], cluster(tax_id)
+  6. }
+(sum of wgt is 194.7243266000001)
+
+Linear regression                               Number of obs     =        116
+                                                F(1, 115)         =       1.71
+                                                Prob > F          =     0.1941
+                                                R-squared         =     0.0177
+                                                Root MSE          =     .98767
+
+                               (Std. err. adjusted for 116 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zmanagement | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ modern_firm |   -.296231   .2267766    -1.31   0.194    -.7454317    .1529698
+       _cons |    .235746   .1968564     1.20   0.234    -.1541885    .6256806
+------------------------------------------------------------------------------
+(sum of wgt is 176.9669618000001)
+
+Linear regression                               Number of obs     =        104
+                                                F(1, 102)         =       3.06
+                                                Prob > F          =     0.0835
+                                                R-squared         =     0.0336
+                                                Root MSE          =     .99295
+
+                               (Std. err. adjusted for 103 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zmanagement | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  modern_ceo |   .3675442   .2102564     1.75   0.083    -.0494984    .7845868
+       _cons |  -.2505808    .159806    -1.57   0.120    -.5675552    .0663936
+------------------------------------------------------------------------------
+(sum of wgt is 201.8837681000002)
+
+Linear regression                               Number of obs     =        119
+                                                F(1, 117)         =       6.45
+                                                Prob > F          =     0.0124
+                                                R-squared         =     0.0621
+                                                Root MSE          =     .95803
+
+                               (Std. err. adjusted for 118 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zmanagement | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+modern_res~t |   .5502754   .2166535     2.54   0.012     .1212044    .9793463
+       _cons |  -.3947363   .1872405    -2.11   0.037    -.7655563   -.0239162
+------------------------------------------------------------------------------
+(sum of wgt is 176.9669618000001)
+
+Linear regression                               Number of obs     =        104
+                                                F(2, 102)         =       3.32
+                                                Prob > F          =     0.0400
+                                                R-squared         =     0.0751
+                                                Root MSE          =     .97621
+
+                               (Std. err. adjusted for 103 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zmanagement | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  modern_ceo |   .1633594   .2317317     0.70   0.482    -.2962792    .6229981
+modern_res~t |   .5100381   .2655781     1.92   0.058    -.0167347    1.036811
+       _cons |  -.5120675   .2136834    -2.40   0.018    -.9359076   -.0882275
+------------------------------------------------------------------------------
+(sum of wgt is 194.7243266000001)
+
+Linear regression                               Number of obs     =        116
+                                                F(1, 115)         =       0.55
+                                                Prob > F          =     0.4603
+                                                R-squared         =     0.0055
+                                                Root MSE          =     1.0108
+
+                               (Std. err. adjusted for 116 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zoperations | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ modern_firm |  -.1680737   .2268866    -0.74   0.460    -.6174925     .281345
+       _cons |   .1243878   .1938432     0.64   0.522    -.2595782    .5083539
+------------------------------------------------------------------------------
+(sum of wgt is 176.9669618000001)
+
+Linear regression                               Number of obs     =        104
+                                                F(1, 102)         =       3.97
+                                                Prob > F          =     0.0490
+                                                R-squared         =     0.0434
+                                                Root MSE          =      .9881
+
+                               (Std. err. adjusted for 103 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zoperations | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  modern_ceo |    .417555   .2096076     1.99   0.049     .0017994    .8333107
+       _cons |  -.2571046   .1589424    -1.62   0.109     -.572366    .0581569
+------------------------------------------------------------------------------
+(sum of wgt is 201.8837681000002)
+
+Linear regression                               Number of obs     =        119
+                                                F(1, 117)         =       3.06
+                                                Prob > F          =     0.0829
+                                                R-squared         =     0.0289
+                                                Root MSE          =     .98165
+
+                               (Std. err. adjusted for 118 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zoperations | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+modern_res~t |    .377963   .2160753     1.75   0.083    -.0499629    .8058888
+       _cons |  -.2703355    .183722    -1.47   0.144    -.6341873    .0935163
+------------------------------------------------------------------------------
+(sum of wgt is 176.9669618000001)
+
+Linear regression                               Number of obs     =        104
+                                                F(2, 102)         =       2.13
+                                                Prob > F          =     0.1244
+                                                R-squared         =     0.0502
+                                                Root MSE          =     .98943
+
+                               (Std. err. adjusted for 103 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zoperations | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  modern_ceo |   .3347522   .2226321     1.50   0.136    -.1068374    .7763418
+modern_res~t |   .2068353    .256227     0.81   0.421    -.3013896    .7150603
+       _cons |   -.363145   .2176746    -1.67   0.098    -.7949016    .0686115
+------------------------------------------------------------------------------
+(sum of wgt is 194.7243266000001)
+
+Linear regression                               Number of obs     =        116
+                                                F(1, 115)         =       2.84
+                                                Prob > F          =     0.0947
+                                                R-squared         =     0.0255
+                                                Root MSE          =     1.0037
+
+                               (Std. err. adjusted for 116 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zmonitoring | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ modern_firm |  -.3635879   .2157839    -1.68   0.095    -.7910143    .0638385
+       _cons |   .2683753   .1788094     1.50   0.136    -.0858117    .6225623
+------------------------------------------------------------------------------
+(sum of wgt is 176.9669618000001)
+
+Linear regression                               Number of obs     =        104
+                                                F(1, 102)         =       2.72
+                                                Prob > F          =     0.1024
+                                                R-squared         =     0.0298
+                                                Root MSE          =     1.0115
+
+                               (Std. err. adjusted for 103 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zmonitoring | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  modern_ceo |   .3518316    .213465     1.65   0.102    -.0715753    .7752385
+       _cons |  -.2619452   .1546911    -1.69   0.093    -.5687743     .044884
+------------------------------------------------------------------------------
+(sum of wgt is 201.8837681000002)
+
+Linear regression                               Number of obs     =        119
+                                                F(1, 117)         =       5.02
+                                                Prob > F          =     0.0270
+                                                R-squared         =     0.0496
+                                                Root MSE          =     .98076
+
+                               (Std. err. adjusted for 118 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zmonitoring | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+modern_res~t |   .5004194    .223402     2.24   0.027     .0579835    .9428553
+       _cons |  -.3769506   .1932278    -1.95   0.053    -.7596281     .005727
+------------------------------------------------------------------------------
+(sum of wgt is 176.9669618000001)
+
+Linear regression                               Number of obs     =        104
+                                                F(2, 102)         =       2.70
+                                                Prob > F          =     0.0718
+                                                R-squared         =     0.0645
+                                                Root MSE          =     .99818
+
+                               (Std. err. adjusted for 103 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+ zmonitoring | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  modern_ceo |    .161936   .2244864     0.72   0.472    -.2833317    .6072037
+modern_res~t |    .474345   .2590794     1.83   0.070    -.0395378    .9882278
+       _cons |  -.5051327   .2189466    -2.31   0.023    -.9394123   -.0708531
+------------------------------------------------------------------------------
+(sum of wgt is 194.7243266000001)
+
+Linear regression                               Number of obs     =        116
+                                                F(1, 115)         =       2.68
+                                                Prob > F          =     0.1046
+                                                R-squared         =     0.0266
+                                                Root MSE          =     .95267
+
+                               (Std. err. adjusted for 116 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+    ztargets | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ modern_firm |  -.3522141   .2153135    -1.64   0.105    -.7787088    .0742806
+       _cons |   .2822488   .1879758     1.50   0.136    -.0900951    .6545926
+------------------------------------------------------------------------------
+(sum of wgt is 176.9669618000001)
+
+Linear regression                               Number of obs     =        104
+                                                F(1, 102)         =       1.39
+                                                Prob > F          =     0.2413
+                                                R-squared         =     0.0150
+                                                Root MSE          =     .96642
+
+                               (Std. err. adjusted for 103 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+    ztargets | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  modern_ceo |   .2362589   .2004665     1.18   0.241    -.1613654    .6338833
+       _cons |  -.1561571   .1493287    -1.05   0.298    -.4523498    .1400357
+------------------------------------------------------------------------------
+(sum of wgt is 201.8837681000002)
+
+Linear regression                               Number of obs     =        119
+                                                F(1, 117)         =       3.99
+                                                Prob > F          =     0.0482
+                                                R-squared         =     0.0357
+                                                Root MSE          =     .93999
+
+                               (Std. err. adjusted for 118 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+    ztargets | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+modern_res~t |   .4035917   .2021265     2.00   0.048     .0032908    .8038925
+       _cons |  -.2764503   .1716213    -1.61   0.110    -.6163373    .0634367
+------------------------------------------------------------------------------
+(sum of wgt is 176.9669618000001)
+
+Linear regression                               Number of obs     =        104
+                                                F(2, 102)         =       2.50
+                                                Prob > F          =     0.0873
+                                                R-squared         =     0.0503
+                                                Root MSE          =     .95363
+
+                               (Std. err. adjusted for 103 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+    ztargets | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  modern_ceo |   .0546424   .2257908     0.24   0.809    -.3932125    .5024973
+modern_res~t |   .4536646   .2459492     1.84   0.068    -.0341745    .9415036
+       _cons |  -.3887421   .1885354    -2.06   0.042    -.7627012   -.0147831
+------------------------------------------------------------------------------
+(sum of wgt is 194.7243266000001)
+
+Linear regression                               Number of obs     =        116
+                                                F(1, 115)         =       0.32
+                                                Prob > F          =     0.5716
+                                                R-squared         =     0.0037
+                                                Root MSE          =     .98937
+
+                               (Std. err. adjusted for 116 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+     zpeople | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ modern_firm |  -.1346059   .2372556    -0.57   0.572    -.6045636    .3353518
+       _cons |   .1343335   .2103877     0.64   0.524    -.2824041    .5510711
+------------------------------------------------------------------------------
+(sum of wgt is 176.9669618000001)
+
+Linear regression                               Number of obs     =        104
+                                                F(1, 102)         =       2.65
+                                                Prob > F          =     0.1065
+                                                R-squared         =     0.0298
+                                                Root MSE          =     .99973
+
+                               (Std. err. adjusted for 103 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+     zpeople | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  modern_ceo |   .3474382   .2133455     1.63   0.106    -.0757317     .770608
+       _cons |  -.2276808    .165004    -1.38   0.171    -.5549654    .0996038
+------------------------------------------------------------------------------
+(sum of wgt is 201.8837681000002)
+
+Linear regression                               Number of obs     =        119
+                                                F(1, 117)         =       7.84
+                                                Prob > F          =     0.0060
+                                                R-squared         =     0.0757
+                                                Root MSE          =     .95421
+
+                               (Std. err. adjusted for 118 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+     zpeople | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+modern_res~t |   .6094905   .2176963     2.80   0.006     .1783543    1.040627
+       _cons |  -.4267903   .1888446    -2.26   0.026    -.8007872   -.0527934
+------------------------------------------------------------------------------
+(sum of wgt is 176.9669618000001)
+
+Linear regression                               Number of obs     =        104
+                                                F(2, 102)         =       3.36
+                                                Prob > F          =     0.0387
+                                                R-squared         =     0.0766
+                                                Root MSE          =     .98013
+
+                               (Std. err. adjusted for 103 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+     zpeople | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  modern_ceo |   .1294641   .2376301     0.54   0.587     -.341874    .6008023
+modern_res~t |   .5444828   .2746745     1.98   0.050    -.0003327    1.089298
+       _cons |  -.5068266   .2174854    -2.33   0.022    -.9382079   -.0754452
+------------------------------------------------------------------------------
+
+. 
+end of do-file
