@@ -1,5 +1,5 @@
 ---
-author: Koren, Miklós & Gergely Attila Kiss
+author: Koren, Miklós & Kiss, Gergely Attila
 date: 2024-02-26
 title: "Communist Era Managers in Modern Times: A Comparison of Management Skills Across Countries and Generations"
 geometry: margin=2.54cm
