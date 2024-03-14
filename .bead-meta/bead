@@ -1,13 +1,13 @@
 {
     "inputs": {
         "ceo-panel": {
-            "content_id": "cf222d9e87485076fea79f9e704380aeb772f3c6ee9a39f368ab1d624eac472f00f91df241cd7b294eb1d65358875ace75790495f9ccccc925cb03dbabdd64d6",
-            "freeze_time": "20221208T202945088347+0100",
+            "content_id": "0ecd914310f891f70841b1f968316f216428dfa6279e412d07ea0459a990c7564b078037dab28c74896584fcf83f025202d48c28ec0945f2544beadb415f3ed4",
+            "freeze_time": "20231130T200524472589+0100",
             "kind": "8f68500668824a7b8b9486f034a6aded-e7db5a61-97b7-4d28-8e22-3ed70eade94b"
         },
         "wms-Hungary-2018": {
-            "content_id": "05bf2df14fac3b1121c6a1754923f316e68de3739e1bdc4abd91d6ab43bcf34f7f89b0a2e0d29563a1cc308ca37d793057dbba22f3d36c9b835a4e5043cbe0c4",
-            "freeze_time": "20200124T155910908773+0100",
+            "content_id": "0fd24e1dfbfb1be12f426c950f196ce3eae4ac2968670f73b1a807831ede40864bcfcde197079d2a4a8d4f4a9ee4caf50a84f2c04f3e5d7fd67a9ed4330877c8",
+            "freeze_time": "20200505T221635610430+0200",
             "kind": "c2275dbd7511cfab8db77cb2db94365d-7e36d060-db3d-4598-956b-a4f24425aa4d"
         }
     },
