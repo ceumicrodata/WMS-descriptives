@@ -20,6 +20,16 @@ generate priority = (first_year_in_market - 1940) + 100*(1-outsider)
 egen rank = rank(priority), by(frame_id_numeric year) unique
 keep if rank==1
 
+egen last_year_before_2017 = max(cond(year <= 2017, year, .)), by(frame_id_numeric)
+keep if (year == last_year_before_2017) | ((frame_id_numeric == 20702230) & (year == 2020))
+* 2017 data for firm is missing from ceo-panel, but can be recovered from the cegjegyzek
+replace year = 2017 if frame_id_numeric == 20702230 & year == 2020
+replace first_year_in_market = 2000 if frame_id_numeric == 20702230 
+replace outsider = 0 if frame_id_numeric == 20702230
+replace expat = 0 if frame_id_numeric == 20702230
+replace entrepreneur = 1 if frame_id_numeric == 20702230
+replace birth_year_opten = 1956 if frame_id_numeric == 20702230
+
 keep first_year_in_market outsider expat birth_year_opten frame_id_numeric year person_id entrepreneur
 
 generate byte in_cegjegyzek = 1
