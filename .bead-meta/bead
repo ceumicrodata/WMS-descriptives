@@ -1,5 +1,10 @@
 {
     "inputs": {
+        "WMS-2014": {
+            "content_id": "bf644a3225138899b56784dde252327bff4d5bbd2b04b6a66093e110e1d250e54017a9c87cc58693e903fa30ab3ca8c01730e49c44babe47e8715fd15b164da4",
+            "freeze_time": "20231212T062332712292-0800",
+            "kind": "ff76986a9be84325c31148bcb633865e-f6aa9a29-af3c-45b3-a148-1a7d60f87250"
+        },
         "ceo-panel": {
             "content_id": "0ecd914310f891f70841b1f968316f216428dfa6279e412d07ea0459a990c7564b078037dab28c74896584fcf83f025202d48c28ec0945f2544beadb415f3ed4",
             "freeze_time": "20231130T200524472589+0100",
