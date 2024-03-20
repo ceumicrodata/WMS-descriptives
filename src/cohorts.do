@@ -2,8 +2,8 @@ use "temp/data.dta", clear
 
 do "src/create/variables.do"
 
-local T1 1950
-local T2 1980
+local T1 1945
+local T2 1995
 local k 5
 local offset 25
 replace birth_year_firm = birth_year_firm - `offset'
@@ -28,7 +28,10 @@ tabulate modern_respondent goldrush_respondent
 summarize management [aw=weight], detail
 regress management i.cohort_firm [pw=weight], cluster(tax_id)
 regress management i.cohort_respondent [pw=weight], cluster(tax_id)
-regress management i.cohort_respondent lnL foreign [pw=weight], cluster(tax_id)
+regress management ib`T1'.cohort_respondent lnL foreign [pw=weight], cluster(tax_id)
+
+* FIXME: Geri, please create a figure with the point estimates and confidence intervals for cohort respondent
+* X axis: cohort of respondeny, Y axis, estimated management score, relative to baseline, 1945
 
 foreach X in management operations monitoring targets people {
     regress `X' modern_firm [pw=weight], cluster(tax_id)
