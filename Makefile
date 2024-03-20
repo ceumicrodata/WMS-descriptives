@@ -9,3 +9,7 @@ temp/sample.dta: src/merge/sample.do temp/wms.dta temp/balance.dta temp/ceo.dta
 	$(STATA) $<
 temp/%.dta: src/read/%.do $(%) 
 	$(STATA) $<
+temp/%.dta: src/%.do
+	$(STATA) $<
+output/%.png: src/%.do
+	$(STATA) $<

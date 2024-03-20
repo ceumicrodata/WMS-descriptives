@@ -57,9 +57,9 @@ tabulate modern_respondent goldrush_respondent
 
 summarize zmanagement [aw=weight], detail
 regress zmanagement i.cohort_firm [pw=weight], cluster(tax_id)
-regress zmanagement i.cohort_ceo [pw=weight], cluster(tax_id)
+*regress zmanagement i.cohort_ceo [pw=weight], cluster(tax_id)
 regress zmanagement i.cohort_respondent [pw=weight], cluster(tax_id)
-regress zmanagement i.cohort_respondent i.cohort_ceo [pw=weight], cluster(tax_id)
+*regress zmanagement i.cohort_respondent i.cohort_ceo [pw=weight], cluster(tax_id)
 
 foreach X of varlist zmanagement zoperations zmonitoring ztargets zpeople {
     regress `X' modern_firm [pw=weight], cluster(tax_id)

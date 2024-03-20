@@ -42,22 +42,4 @@ replace country_type = 4 	if inlist(country, "Sweden") // Scandinavian
 label define ctypes 1 "Western" 2 "Mediterran" 3 "Post-Soviet" 4 "Scandinavian" 
 label values country_type ctypes
 
-graph hbar management, nofill over(country_type, sort(mangement) descending gap(0)) ///
-	asyvars over(country, sort(management) descending gap(0)) ///
-	bar(1, color(maroon) fintensity(inten80)) /// Western
-	bar(2, color(navy)   fintensity(inten60)) /// Mediterran
-	bar(3, color(navy)   fintensity(inten80)) /// Post-Soviet
-	bar(4, color(maroon) fintensity(inten60)) /// Scandinavian
-	bar(5, color(grey)   fintensity(inten80)) // Other
-graph export "output/management-means.jpg", replace
-	
-preserve
-tempfile gdp
-import delimited "temp/gdp-per-capita.csv", clear
-save `gdp', replace
-restore
-merge 1:1 country using `gdp', nogen
-
-twoway scatter management gdp_per_capita, colorvar(country_type) colorlist(maroon%80 navy%60 navy%80 maroon%60 grey%80) colordiscrete coloruseplegend zlabel(, valuelabel)
-graph export "output/management-vs-gdp.png"
-
+save "temp/wms-by-country.dta", replace
