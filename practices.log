@@ -1,0 +1,184 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      18.0
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user 2-core  perpetual
+Serial number: 501806323834
+  Licensed to: Miklos Koren
+               CEU MicroData
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do src/practices.do 
+
+. clear all
+
+. use "temp/data.dta"
+
+. 
+. do "src/create/variables.do"
+
+. generate lnL = ln(employment_from_balance)
+
+. generate exporter = export > 0
+
+. generate lnQ = ln(sales)
+
+. generate lnK = ln(tanass_clean)
+(2 missing values generated)
+
+. generate lnM = ln(ranyag)
+(2 missing values generated)
+
+. generate foreign = fo3
+
+. 
+. regress lnQ lnK lnL lnM
+
+      Source |       SS           df       MS      Number of obs   =       114
+-------------+----------------------------------   F(3, 110)       =   1391.14
+       Model |  244.381324         3  81.4604414   Prob > F        =    0.0000
+    Residual |  6.44124363       110   .05855676   R-squared       =    0.9743
+-------------+----------------------------------   Adj R-squared   =    0.9736
+       Total |  250.822568       113  2.21966874   Root MSE        =    .24199
+
+------------------------------------------------------------------------------
+         lnQ | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         lnK |   .0519114   .0245512     2.11   0.037     .0032568    .1005661
+         lnL |   .1977643   .0369054     5.36   0.000     .1246266    .2709021
+         lnM |   .7586059    .023559    32.20   0.000     .7119176    .8052943
+       _cons |   2.277995   .2074069    10.98   0.000     1.866963    2.689027
+------------------------------------------------------------------------------
+
+. predict TFP, resid
+(4 missing values generated)
+
+. 
+end of do-file
+
+. 
+. * FIXME: Geri, can you save these regression tables with outreg2 or estout?
+. regress management lnL, robust
+
+Linear regression                               Number of obs     =        118
+                                                F(1, 116)         =      56.22
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2560
+                                                Root MSE          =     .64431
+
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         lnL |   .4524918    .060348     7.50   0.000     .3329651    .5720186
+       _cons |   .5826189    .318849     1.83   0.070    -.0489018     1.21414
+------------------------------------------------------------------------------
+
+. regress management lnL foreign, robust
+
+Linear regression                               Number of obs     =        118
+                                                F(2, 115)         =      34.19
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3297
+                                                Root MSE          =     .61421
+
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         lnL |   .3583748   .0621395     5.77   0.000     .2352884    .4814612
+     foreign |   .4343896   .1195125     3.63   0.000     .1976583    .6711209
+       _cons |   .8625569   .3094507     2.79   0.006     .2495945    1.475519
+------------------------------------------------------------------------------
+
+. regress management lnL foreign exporter, robust
+
+Linear regression                               Number of obs     =        118
+                                                F(3, 114)         =      23.56
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3440
+                                                Root MSE          =     .61027
+
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         lnL |   .3162308   .0715156     4.42   0.000      .174559    .4579026
+     foreign |   .3981278   .1160575     3.43   0.001     .1682187    .6280368
+    exporter |   .2305512   .1561927     1.48   0.143    -.0788653    .5399676
+       _cons |   .9157152   .3142437     2.91   0.004     .2932009    1.538229
+------------------------------------------------------------------------------
+
+. 
+. local outcomes lnQ TFP exporter 
+
+. 
+. foreach Y in `outcomes' {
+  2.     regress `Y' management lnL foreign, robust
+  3. }
+
+Linear regression                               Number of obs     =        118
+                                                F(3, 114)         =      37.55
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5298
+                                                Root MSE          =     1.0712
+
+------------------------------------------------------------------------------
+             |               Robust
+         lnQ | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  management |   .5184548    .152617     3.40   0.001     .2161216     .820788
+         lnL |   1.007896   .1281755     7.86   0.000     .7539811    1.261811
+     foreign |   .1594989   .1960988     0.81   0.418    -.2289712    .5479691
+       _cons |   8.309678   .6355069    13.08   0.000     7.050744    9.568613
+------------------------------------------------------------------------------
+
+Linear regression                               Number of obs     =        114
+                                                F(3, 110)         =       0.22
+                                                Prob > F          =     0.8856
+                                                R-squared         =     0.0093
+                                                Root MSE          =     .24086
+
+------------------------------------------------------------------------------
+             |               Robust
+         TFP | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  management |    .030923   .0457617     0.68   0.501    -.0597661     .121612
+         lnL |  -.0168858   .0347292    -0.49   0.628     -.085711    .0519393
+     foreign |   .0142939   .0377095     0.38   0.705    -.0604375    .0890253
+       _cons |  -.0092962   .1452445    -0.06   0.949    -.2971366    .2785443
+------------------------------------------------------------------------------
+
+Linear regression                               Number of obs     =        118
+                                                F(3, 114)         =      12.70
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2197
+                                                Root MSE          =     .38694
+
+------------------------------------------------------------------------------
+             |               Robust
+    exporter | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  management |   .0926855   .0624475     1.48   0.141    -.0310226    .2163935
+         lnL |   .1495807   .0444511     3.37   0.001     .0615234    .2376379
+     foreign |   .1170216   .0764509     1.53   0.129    -.0344269    .2684702
+       _cons |   -.310517   .2191991    -1.42   0.159    -.7447486    .1237147
+------------------------------------------------------------------------------
+
+.  
+. 
+end of do-file

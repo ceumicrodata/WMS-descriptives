@@ -1,51 +1,16 @@
 clear all
-use "input/wms-Hungary-2018/wms_hu_analysis.dta"
-mvdecode _all, mv(-99)
-generate year = 2018
+use "temp/data.dta"
 
-* some respondents seem to have given start year
-replace firm_age = 2018 - firm_age if firm_age > 1800
+do "src/create/variables.do"
 
-* merge on CEOs from cegjegyzek - they may not be the respondent, though
-merge m:1 tax_id year using "temp/wms-panel.dta", keep(master match) keepusing(expat entrepreneur birth_year first_year_in_market) nogenerate
-generate in_cegjegyzek = !missing(birth_year)
-rename first_year_in_market entry_year
-foreach X in expat entrepreneur birth_year entry_year {
-    rename `X' `X'_ceo
-} 
+* FIXME: Geri, can you save these regression tables with outreg2 or estout?
+regress management lnL, robust
+regress management lnL foreign, robust
+regress management lnL foreign exporter, robust
 
-local T1 1950
-local T2 1980
-local k 5
-local offset 25
-replace birth_year_firm = birth_year_firm - `offset'
-foreach i in ceo respondent firm {
-    generate cohort_`i' = birth_year_`i'
-    replace cohort_`i' = `T1' if cohort_`i' <= `T1'
-    replace cohort_`i' = `T2' if cohort_`i' > `T2' & !missing(cohort_`i')
-    replace cohort_`i' = int(cohort_`i'/`k') * `k'
-    * people who were 20 in 1985 could already been exposed to business education
-    generate byte modern_`i' = birth_year_`i' >= 1965 if !missing(birth_year_`i')
-    generate byte goldrush_`i' = inrange(birth_year_`i', 1965, 1974)
+local outcomes lnQ TFP exporter 
+
+foreach Y in `outcomes' {
+    regress `Y' management lnL foreign, robust
 }
-replace birth_year_firm = birth_year_firm + `offset'
-replace cohort_firm = cohort_firm + `offset'
-
-tabulate cohort_firm
-tabulate cohort_ceo
-tabulate cohort_respondent
-tabulate modern_ceo modern_respondent
-tabulate modern_respondent goldrush_respondent
-
-summarize zmanagement [aw=weight], detail
-regress zmanagement i.cohort_firm [pw=weight], cluster(tax_id)
-*regress zmanagement i.cohort_ceo [pw=weight], cluster(tax_id)
-regress zmanagement i.cohort_respondent [pw=weight], cluster(tax_id)
-*regress zmanagement i.cohort_respondent i.cohort_ceo [pw=weight], cluster(tax_id)
-
-foreach X of varlist zmanagement zoperations zmonitoring ztargets zpeople {
-    regress `X' modern_firm [pw=weight], cluster(tax_id)
-    regress `X' modern_ceo [pw=weight], cluster(tax_id)
-    regress `X' modern_respondent [pw=weight], cluster(tax_id)
-    regress `X' modern_ceo modern_respondent [pw=weight], cluster(tax_id)
-}
+ 

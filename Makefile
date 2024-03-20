@@ -8,6 +8,8 @@ DATA := balance wms ceo wmsglobal gdp
 PLOTS := $(patsubst src/plot/%.do,output/fig/%.png,$(wildcard src/plot/*.do))
 
 all: $(PLOTS)
+practices.log: src/practices.do temp/data.dta
+	$(STATA) $<
 validate.log: src/validate.do temp/data.dta
 	$(STATA) $<
 output/fig/%.png: src/plot/%.do temp/data.dta
