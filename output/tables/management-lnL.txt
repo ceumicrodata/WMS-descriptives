@@ -1,0 +1,16 @@
+	(1)	(2)	(3)
+VARIABLES	management	management	management
+			
+lnL	0.455***	0.361***	0.326***
+	(0.0593)	(0.0589)	(0.0665)
+foreign		0.461***	0.437***
+		(0.109)	(0.111)
+exporter			0.196
+			(0.158)
+Constant	0.568*	0.856***	0.890***
+	(0.318)	(0.302)	(0.306)
+			
+Observations	118	118	118
+R-squared	0.284	0.369	0.380
+Robust standard errors in parentheses			
+*** p<0.01, ** p<0.05, * p<0.1			
