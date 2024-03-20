@@ -72,4 +72,21 @@ Sample: 762 firms.
 6. 118 (94%) usable responses
 
 # Validation
-## 
+
+## How old is your firm?
+![](fig/firm_age_validation.png)
+
+## How many employees does your firm have?
+![](fig/employment_validation.png)
+
+## ...zooming in
+![](fig/employment_validation_cleaned.png)
+
+## What percentage of your revenue is coming from exports?
+![](fig/export_share_validation.png)
+
+## Birth year of respondent and the CEO
+![](fig/birth_year_validation.png)
+
+## ...if the respondent **is** the CEO
+![](fig/birth_year_validation_cleaned.png)

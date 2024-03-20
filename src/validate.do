@@ -27,7 +27,7 @@ foreach var in `vars' {
 
 * do some manual cleaning
 * these respondents likely reported MNE employment
-replace employment_survey = . if employment_survey > 10000
+replace employment_survey = . if employment_survey > 3000
 replace birth_year_survey = . if pos != "ceo"
 
 foreach var in employment birth_year {

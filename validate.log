@@ -110,8 +110,8 @@ file output/fig/birth_year_validation.png written in PNG format
 . 
 . * do some manual cleaning
 . * these respondents likely reported MNE employment
-. replace employment_survey = . if employment_survey > 10000
-(2 real changes made, 2 to missing)
+. replace employment_survey = . if employment_survey > 3000
+(3 real changes made, 3 to missing)
 
 . replace birth_year_survey = . if pos != "ceo"
 (88 real changes made, 88 to missing)
@@ -123,12 +123,12 @@ file output/fig/birth_year_validation.png written in PNG format
   4.     graph export "output/fig/`var'_validation_cleaned.png", replace width(
 > 1040)
   5. }
-(obs=114)
+(obs=113)
 
              | employ~y employ~a
 -------------+------------------
 employment~y |   1.0000
-employment~a |   0.8141   1.0000
+employment~a |   0.8605   1.0000
 
 file output/fig/employment_validation_cleaned.png written in PNG format
 (obs=30)

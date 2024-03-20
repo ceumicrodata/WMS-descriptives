@@ -23,3 +23,18 @@ temp/%.dta: src/%.do
 	$(STATA) $<
 output/%.png: src/%.do
 	$(STATA) $<
+
+slides_md := $(wildcard report/slides.md)
+slides_tex := $(patsubst report/%.md,output/%.tex,$(slides_md))
+slides_pdf := $(patsubst output/%.tex,output/%.pdf,$(slides_tex)) 
+
+$(slides_tex): output/%.tex: report/%.md output/preamble-slides.tex
+	pandoc $< \
+	    -t beamer \
+	    --slide-level 2 \
+	    -H output/preamble-slides.tex \
+	    -o $@
+
+$(slides_pdf): %.pdf: %.tex
+	cd $(dir $@) && pdflatex $(notdir $<)
+	rm $(basename $<).log $(basename $<).nav $(basename $<).aux $(basename $<).snm $(basename $<).toc
