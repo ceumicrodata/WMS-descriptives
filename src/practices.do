@@ -5,21 +5,6 @@ generate year = 2018
 
 * some respondents seem to have given start year
 replace firm_age = 2018 - firm_age if firm_age > 1800
-generate birth_year_firm = 2018 - firm_age
-
-local production termel gyart gyárt uzem üzem oper techn műszaki projekt telephely
-local ceo ügyvezet vezér elnük vezer cégvez tulaj ugyvez
-
-replace position = ustrlower(position)
-generate str pos = ""
-foreach pos in production ceo {
-    foreach word in ``pos'' {
-        replace pos = "`pos'" if ustrpos(position, "`word'")
-    }
-}
-replace pos = "other" if missing(pos)
-
-generate birth_year_respondent = 2018 - age
 
 * merge on CEOs from cegjegyzek - they may not be the respondent, though
 merge m:1 tax_id year using "temp/wms-panel.dta", keep(master match) keepusing(expat entrepreneur birth_year first_year_in_market) nogenerate
@@ -28,9 +13,6 @@ rename first_year_in_market entry_year
 foreach X in expat entrepreneur birth_year entry_year {
     rename `X' `X'_ceo
 } 
-* there may be multiple CEOs, use the younger
-replace birth_year_ceo = max(birth_year_respondent, birth_year_ceo) if pos == "ceo"
-replace birth_year_respondent = birth_year_ceo if pos == "ceo"
 
 local T1 1950
 local T2 1980

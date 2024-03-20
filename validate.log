@@ -1,0 +1,144 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      18.0
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user 2-core  perpetual
+Serial number: 501806323834
+  Licensed to: Miklos Koren
+               CEU MicroData
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do src/validate.do 
+
+. use "temp/data.dta", clear
+
+. 
+. local vars firm_age employment export_share foreign_owner birth_year 
+
+. 
+. local firm_age_survey firm_age
+
+. local firm_age_data 2018 - foundyear
+
+. 
+. local employment_survey emp_firm
+
+. local employment_data employment_from_balance
+
+. 
+. local export_share_survey exported
+
+. local export_share_data export/sales*100
+
+. 
+. local foreign_owner_survey !inlist(mne_cty, "Magyar", "0", "")
+
+. local foreign_owner_data fo3
+
+. 
+. local birth_year_survey birth_year_respondent
+
+. local birth_year_data birth_year_opten
+
+. 
+. foreach var in `vars' {
+  2.     generate `var'_survey = ``var'_survey'
+  3.     generate `var'_data = ``var'_data'
+  4.     corr `var'_survey `var'_data
+  5.     scatter `var'_survey `var'_data
+  6.     graph export "output/fig/`var'_validation.png", replace width(1040)
+  7. }
+(8 missing values generated)
+(obs=110)
+
+             | firm_a~y firm_a~a
+-------------+------------------
+firm_age_s~y |   1.0000
+firm_age_d~a |   0.3001   1.0000
+
+file output/fig/firm_age_validation.png written in PNG format
+(2 missing values generated)
+(obs=116)
+
+             | employ~y employ~a
+-------------+------------------
+employment~y |   1.0000
+employment~a |   0.2057   1.0000
+
+file output/fig/employment_validation.png written in PNG format
+(1 missing value generated)
+(obs=117)
+
+             | export~y export~a
+-------------+------------------
+export_sha~y |   1.0000
+export_sha~a |   0.5947   1.0000
+
+file output/fig/export_share_validation.png written in PNG format
+(obs=118)
+
+             | foreig~y foreig~a
+-------------+------------------
+foreign_ow~y |   1.0000
+foreign_ow~a |   0.7246   1.0000
+
+file output/fig/foreign_owner_validation.png written in PNG format
+(3 missing values generated)
+(obs=115)
+
+             | birth_~y birth_~a
+-------------+------------------
+birth_year~y |   1.0000
+birth_year~a |   0.4130   1.0000
+
+file output/fig/birth_year_validation.png written in PNG format
+
+. 
+. * do some manual cleaning
+. * these respondents likely reported MNE employment
+. replace employment_survey = . if employment_survey > 10000
+(2 real changes made, 2 to missing)
+
+. replace birth_year_survey = . if pos != "ceo"
+(88 real changes made, 88 to missing)
+
+. 
+. foreach var in employment birth_year {
+  2.     corr `var'_survey `var'_data
+  3.     scatter `var'_survey `var'_data
+  4.     graph export "output/fig/`var'_validation_cleaned.png", replace width(
+> 1040)
+  5. }
+(obs=114)
+
+             | employ~y employ~a
+-------------+------------------
+employment~y |   1.0000
+employment~a |   0.8141   1.0000
+
+file output/fig/employment_validation_cleaned.png written in PNG format
+(obs=30)
+
+             | birth_~y birth_~a
+-------------+------------------
+birth_year~y |   1.0000
+birth_year~a |   0.6906   1.0000
+
+file output/fig/birth_year_validation_cleaned.png written in PNG format
+
+. 
+end of do-file
