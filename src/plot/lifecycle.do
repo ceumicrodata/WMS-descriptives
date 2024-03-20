@@ -1,5 +1,5 @@
 clear all
-use "temp/firm-panel.dta"
+use "temp/data.dta"
 
 keep if in_wiw
 keep if year == 2013

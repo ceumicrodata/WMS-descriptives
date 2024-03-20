@@ -1,2 +1,2 @@
-import delimited "temp/gdp-per-capita.csv", clear
+import delimited "external/gdp-per-capita.csv", clear
 save "temp/gdp.dta", replace

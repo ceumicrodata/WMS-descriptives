@@ -4,9 +4,12 @@ wms := input/wms-Hungary-2018/wms_hu_clean.dta
 ceo := input/ceo-panel/ceo-panel.dta
 wmsglobal := input/WMS-2014/wmsdata_2004_2015.csv
 
-DATA := balance wms ceo wmsglobal
+DATA := balance wms ceo wmsglobal gdp
+PLOTS := $(patsubst src/plot/%.do,output/fig/%.png,$(wildcard src/plot/*.do))
 
+all: $(PLOTS)
 output/fig/%.png: src/plot/%.do temp/data.dta
+	mkdir -p $(dir $@)
 	$(STATA) $<
 temp/data.dta: src/merge/data.do temp/sample.dta $(foreach d,$(DATA),temp/$(d).dta)
 	$(STATA) $<
