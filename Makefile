@@ -7,10 +7,8 @@ wmsglobal := input/WMS-2014/wmsdata_2004_2015.csv
 DATA := balance wms ceo wmsglobal gdp
 PLOTS := $(patsubst src/plot/%.do,output/fig/%.png,$(wildcard src/plot/*.do))
 
-all: $(PLOTS)
-practices.log: src/practices.do temp/data.dta
-	$(STATA) $<
-validate.log: src/validate.do temp/data.dta
+all: $(PLOTS) validate.log practices.log cohorts.log output/slides.pdf
+%.log: src/%.do temp/data.dta src/create/variables.do
 	$(STATA) $<
 output/fig/%.png: src/plot/%.do temp/data.dta
 	mkdir -p $(dir $@)

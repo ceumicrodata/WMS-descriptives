@@ -1,0 +1,186 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      18.0
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user 2-core  perpetual
+Serial number: 501806323834
+  Licensed to: Miklos Koren
+               CEU MicroData
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do src/cohorts.do 
+
+. use "temp/data.dta", clear
+
+. 
+. do "src/create/variables.do"
+
+. generate lnL = ln(employment_from_balance)
+
+. generate exporter = export > 0
+
+. generate lnQ = ln(sales)
+
+. generate lnK = ln(tanass_clean)
+(2 missing values generated)
+
+. generate lnM = ln(ranyag)
+(2 missing values generated)
+
+. generate foreign = fo3
+
+. 
+. regress lnQ lnK lnL lnM
+
+      Source |       SS           df       MS      Number of obs   =       114
+-------------+----------------------------------   F(3, 110)       =   1391.14
+       Model |  244.381324         3  81.4604414   Prob > F        =    0.0000
+    Residual |  6.44124363       110   .05855676   R-squared       =    0.9743
+-------------+----------------------------------   Adj R-squared   =    0.9736
+       Total |  250.822568       113  2.21966874   Root MSE        =    .24199
+
+------------------------------------------------------------------------------
+         lnQ | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         lnK |   .0519114   .0245512     2.11   0.037     .0032568    .1005661
+         lnL |   .1977643   .0369054     5.36   0.000     .1246266    .2709021
+         lnM |   .7586059    .023559    32.20   0.000     .7119176    .8052943
+       _cons |   2.277995   .2074069    10.98   0.000     1.866963    2.689027
+------------------------------------------------------------------------------
+
+. predict TFP, resid
+(4 missing values generated)
+
+. 
+. replace birth_year_firm = foundyear
+(91 real changes made)
+
+. 
+end of do-file
+
+. 
+. local T1 1950
+
+. local T2 1980
+
+. local k 5
+
+. local offset 25
+
+. replace birth_year_firm = birth_year_firm - `offset'
+(118 real changes made)
+
+. foreach i in ceo respondent firm {
+  2.     generate cohort_`i' = birth_year_`i'
+  3.     replace cohort_`i' = `T1' if cohort_`i' <= `T1'
+  4.     replace cohort_`i' = `T2' if cohort_`i' > `T2' & !missing(cohort_`i')
+  5.     replace cohort_`i' = int(cohort_`i'/`k') * `k'
+  6.     * people who were 20 in 1985 could already been exposed to business ed
+> ucation
+.     generate byte modern_`i' = birth_year_`i' >= 1965 if !missing(birth_year_
+> `i')
+  7.     generate byte goldrush_`i' = inrange(birth_year_`i', 1965, 1974)
+  8. }
+(3 missing values generated)
+(7 real changes made)
+(8 real changes made)
+(82 real changes made)
+(3 missing values generated)
+(3 real changes made)
+(25 real changes made)
+(68 real changes made)
+(5 real changes made)
+(12 real changes made)
+(76 real changes made)
+
+. replace birth_year_firm = birth_year_firm + `offset'
+(118 real changes made)
+
+. replace cohort_firm = cohort_firm + `offset'
+(118 real changes made)
+
+. 
+. tabulate cohort_firm
+
+cohort_firm |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       1975 |          5        4.24        4.24
+       1980 |          1        0.85        5.08
+       1985 |          6        5.08       10.17
+       1990 |         46       38.98       49.15
+       1995 |         29       24.58       73.73
+       2000 |         17       14.41       88.14
+       2005 |         14       11.86      100.00
+------------+-----------------------------------
+      Total |        118      100.00
+
+. tabulate cohort_ceo
+
+ cohort_ceo |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       1950 |         21       18.26       18.26
+       1955 |         19       16.52       34.78
+       1960 |         18       15.65       50.43
+       1965 |         16       13.91       64.35
+       1970 |         22       19.13       83.48
+       1975 |         10        8.70       92.17
+       1980 |          9        7.83      100.00
+------------+-----------------------------------
+      Total |        115      100.00
+
+. tabulate cohort_respondent
+
+cohort_resp |
+     ondent |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       1950 |          7        5.93        5.93
+       1955 |         11        9.32       15.25
+       1960 |          9        7.63       22.88
+       1965 |         13       11.02       33.90
+       1970 |         20       16.95       50.85
+       1975 |         26       22.03       72.88
+       1980 |         32       27.12      100.00
+------------+-----------------------------------
+      Total |        118      100.00
+
+. tabulate modern_ceo modern_respondent
+
+           |   modern_respondent
+modern_ceo |         0          1 |     Total
+-----------+----------------------+----------
+         0 |        23         35 |        58 
+         1 |         4         53 |        57 
+-----------+----------------------+----------
+     Total |        27         88 |       115 
+
+. tabulate modern_respondent goldrush_respondent
+
+modern_res |  goldrush_respondent
+   pondent |         0          1 |     Total
+-----------+----------------------+----------
+         0 |        27          0 |        27 
+         1 |        58         33 |        91 
+-----------+----------------------+----------
+     Total |        85         33 |       118 
+
+. 
+. summarize zmanagement [aw=weight], detail
+variable zmanagement not found
+r(111);
+
+end of do-file
+r(111);
