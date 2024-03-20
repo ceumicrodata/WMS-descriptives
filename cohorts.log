@@ -178,8 +178,148 @@ modern_res |  goldrush_respondent
      Total |        85         33 |       118 
 
 . 
-. summarize zmanagement [aw=weight], detail
-variable zmanagement not found
+. summarize management [aw=weight], detail
+
+                  ADJUSTED MANAGEMENT SCORE
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     1.259873       1.167021
+ 5%     1.597149       1.259873
+10%     1.763816       1.263816       Obs                 118
+25%      2.20826       1.263816       Sum of wgt.  199.285845
+
+50%     2.936157                      Mean           2.839376
+                        Largest       Std. dev.       .722534
+75%     3.319371       4.055909
+90%     3.763816       4.097149       Variance       .5220553
+95%     3.989866       4.222576       Skewness      -.3005594
+99%     4.222576       4.269489       Kurtosis       2.387017
+
+. regress management i.cohort_firm [pw=weight], cluster(tax_id)
+(sum of wgt is 199.2858448)
+
+Linear regression                               Number of obs     =        118
+                                                F(5, 117)         =          .
+                                                Prob > F          =          .
+                                                R-squared         =     0.0610
+                                                Root MSE          =     .71883
+
+                               (Std. err. adjusted for 118 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ cohort_firm |
+       1980  |  -1.204616   .1885459    -6.39   0.000    -1.578022   -.8312111
+       1985  |   .0579992    .287348     0.20   0.840    -.5110785     .627077
+       1990  |  -.4958509   .2136898    -2.32   0.022    -.9190523   -.0726496
+       1995  |  -.5490595   .2475584    -2.22   0.028    -1.039336   -.0587831
+       2000  |   -.371701   .2432823    -1.53   0.129     -.853509    .1101069
+       2005  |  -.2572643   .3060758    -0.84   0.402    -.8634314    .3489028
+             |
+       _cons |   3.253306   .1885459    17.25   0.000     2.879901    3.626712
+------------------------------------------------------------------------------
+
+. regress management i.cohort_respondent [pw=weight], cluster(tax_id)
+(sum of wgt is 199.2858448)
+
+Linear regression                               Number of obs     =        118
+                                                F(6, 117)         =       9.44
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2229
+                                                Root MSE          =     .65394
+
+                               (Std. err. adjusted for 118 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+cohort_res~t |
+       1955  |   .9076671   .2188406     4.15   0.000     .4742648    1.341069
+       1960  |   .9732724   .3053394     3.19   0.002     .3685638    1.577981
+       1965  |    1.43516   .2367564     6.06   0.000      .966276    1.904043
+       1970  |   1.383405   .2019638     6.85   0.000     .9834264    1.783384
+       1975  |     .82949   .2352309     3.53   0.001     .3636274    1.295352
+       1980  |   1.149348   .2089216     5.50   0.000     .7355895    1.563106
+             |
+       _cons |   1.807364   .1679648    10.76   0.000     1.474718    2.140009
+------------------------------------------------------------------------------
+
+. *regress zmanagement i.cohort_respondent i.cohort_ceo [pw=weight], cluster(ta
+> x_id)
+. 
+. foreach X in management operations monitoring targets people {
+  2.     regress `X' modern_firm [pw=weight], cluster(tax_id)
+  3.     regress `X' modern_ceo [pw=weight], cluster(tax_id)
+  4.     regress `X' modern_respondent [pw=weight], cluster(tax_id)
+  5.     regress `X' modern_ceo modern_respondent [pw=weight], cluster(tax_id)
+  6. }
+(sum of wgt is 199.2858448000001)
+
+Linear regression                               Number of obs     =        118
+                                                F(1, 117)         =       6.15
+                                                Prob > F          =     0.0146
+                                                R-squared         =     0.0290
+                                                Root MSE          =     .71506
+
+                               (Std. err. adjusted for 118 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ modern_firm |  -.4165305   .1679564    -2.48   0.015    -.7491593   -.0839017
+       _cons |   3.216115   .1505831    21.36   0.000     2.917893    3.514337
+------------------------------------------------------------------------------
+(sum of wgt is 195.0050857000001)
+
+Linear regression                               Number of obs     =        115
+                                                F(1, 114)         =       1.69
+                                                Prob > F          =     0.1957
+                                                R-squared         =     0.0158
+                                                Root MSE          =     .72142
+
+                               (Std. err. adjusted for 115 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  modern_ceo |    .181637    .139569     1.30   0.196    -.0948482    .4581221
+       _cons |   2.740934   .1072017    25.57   0.000     2.528569      2.9533
+------------------------------------------------------------------------------
+(sum of wgt is 199.2858448000001)
+
+Linear regression                               Number of obs     =        118
+                                                F(1, 117)         =       6.89
+                                                Prob > F          =     0.0098
+                                                R-squared         =     0.0672
+                                                Root MSE          =     .70084
+
+                               (Std. err. adjusted for 118 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+modern_res~t |   .4238812   .1615391     2.62   0.010     .1039616    .7438009
+       _cons |   2.526707   .1413925    17.87   0.000     2.246687    2.806728
+------------------------------------------------------------------------------
+(sum of wgt is 195.0050857000001)
+
+Linear regression                               Number of obs     =        115
+                                                F(2, 114)         =       3.21
+                                                Prob > F          =     0.0442
+                                                R-squared         =     0.0642
+                                                Root MSE          =     .70658
+
+                               (Std. err. adjusted for 115 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  modern_ceo |   .0517478   .1481378     0.35   0.727     -.241712    .3452075
+modern_res~t |   .3867813   .1758845     2.20   0.030     .0383554    .7352073
+       _cons |   2.518632   .1469082    17.14   0.000     2.227608    2.809656
+------------------------------------------------------------------------------
+variable operations not found
 r(111);
 
 end of do-file

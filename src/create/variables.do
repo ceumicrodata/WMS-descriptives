@@ -7,3 +7,5 @@ generate foreign = fo3
 
 regress lnQ lnK lnL lnM
 predict TFP, resid
+
+replace birth_year_firm = foundyear
