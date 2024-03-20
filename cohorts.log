@@ -245,15 +245,43 @@ cohort_res~t |
        _cons |   1.807364   .1679648    10.76   0.000     1.474718    2.140009
 ------------------------------------------------------------------------------
 
-. *regress zmanagement i.cohort_respondent i.cohort_ceo [pw=weight], cluster(ta
-> x_id)
+. regress management i.cohort_respondent lnL foreign [pw=weight], cluster(tax_i
+> d)
+(sum of wgt is 199.2858448)
+
+Linear regression                               Number of obs     =        118
+                                                F(8, 117)         =      21.56
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4621
+                                                Root MSE          =       .549
+
+                               (Std. err. adjusted for 118 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+cohort_res~t |
+       1955  |   .5163904   .1836505     2.81   0.006     .1526803    .8801005
+       1960  |   .7117751   .2623824     2.71   0.008     .1921405     1.23141
+       1965  |   1.026459   .1680734     6.11   0.000      .693598    1.359319
+       1970  |   .8572454   .1924761     4.45   0.000     .4760565    1.238434
+       1975  |   .5948251   .1895185     3.14   0.002     .2194936    .9701565
+       1980  |   .7795759   .1604761     4.86   0.000     .4617613     1.09739
+             |
+         lnL |   .3025961   .0601538     5.03   0.000     .1834648    .4217275
+     foreign |   .4092082   .1088203     3.76   0.000     .1936953    .6247212
+       _cons |   .4770583   .2729023     1.75   0.083    -.0634103    1.017527
+------------------------------------------------------------------------------
+
 . 
 . foreach X in management operations monitoring targets people {
   2.     regress `X' modern_firm [pw=weight], cluster(tax_id)
   3.     regress `X' modern_ceo [pw=weight], cluster(tax_id)
   4.     regress `X' modern_respondent [pw=weight], cluster(tax_id)
   5.     regress `X' modern_ceo modern_respondent [pw=weight], cluster(tax_id)
-  6. }
+  6.     regress `X' modern_ceo modern_respondent lnL foreign [pw=weight], clus
+> ter(tax_id)
+  7. }
 (sum of wgt is 199.2858448000001)
 
 Linear regression                               Number of obs     =        118
@@ -318,6 +346,25 @@ Linear regression                               Number of obs     =        115
   modern_ceo |   .0517478   .1481378     0.35   0.727     -.241712    .3452075
 modern_res~t |   .3867813   .1758845     2.20   0.030     .0383554    .7352073
        _cons |   2.518632   .1469082    17.14   0.000     2.227608    2.809656
+------------------------------------------------------------------------------
+(sum of wgt is 195.0050857000001)
+
+Linear regression                               Number of obs     =        115
+                                                F(4, 114)         =      20.67
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4114
+                                                Root MSE          =     .56546
+
+                               (Std. err. adjusted for 115 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  modern_ceo |   .0700629   .1138035     0.62   0.539    -.1553809    .2955068
+modern_res~t |   .2555421   .1402014     1.82   0.071    -.0221958    .5332801
+         lnL |   .3447063   .0577847     5.97   0.000     .2302353    .4591773
+     foreign |   .4801112   .1125053     4.27   0.000      .257239    .7029834
+       _cons |   .7031038   .3052278     2.30   0.023     .0984499    1.307758
 ------------------------------------------------------------------------------
 variable operations not found
 r(111);

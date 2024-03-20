@@ -28,11 +28,12 @@ tabulate modern_respondent goldrush_respondent
 summarize management [aw=weight], detail
 regress management i.cohort_firm [pw=weight], cluster(tax_id)
 regress management i.cohort_respondent [pw=weight], cluster(tax_id)
-*regress zmanagement i.cohort_respondent i.cohort_ceo [pw=weight], cluster(tax_id)
+regress management i.cohort_respondent lnL foreign [pw=weight], cluster(tax_id)
 
 foreach X in management operations monitoring targets people {
     regress `X' modern_firm [pw=weight], cluster(tax_id)
     regress `X' modern_ceo [pw=weight], cluster(tax_id)
     regress `X' modern_respondent [pw=weight], cluster(tax_id)
     regress `X' modern_ceo modern_respondent [pw=weight], cluster(tax_id)
+    regress `X' modern_ceo modern_respondent lnL foreign [pw=weight], cluster(tax_id)
 }
