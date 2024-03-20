@@ -1,0 +1,24 @@
+	(1)
+VARIABLES	management
+	
+1980.cohort_firm	-1.205***
+	(0.189)
+1985.cohort_firm	0.0580
+	(0.289)
+1990.cohort_firm	-0.496**
+	(0.215)
+1995.cohort_firm	-0.549**
+	(0.249)
+2000.cohort_firm	-0.372
+	(0.244)
+2005.cohort_firm	0.176
+	(0.279)
+2010.cohort_firm	-0.646*
+	(0.389)
+Constant	3.253***
+	(0.189)
+	
+Observations	118
+R-squared	0.106
+Robust standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

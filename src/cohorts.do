@@ -27,16 +27,26 @@ tabulate modern_respondent goldrush_respondent
 
 summarize management [aw=weight], detail
 regress management i.cohort_firm [pw=weight], cluster(tax_id)
+outreg2 using "output/tables/management-cohort-firm.tex", replace tex(frag pr)
 regress management i.cohort_respondent [pw=weight], cluster(tax_id)
+outreg2 using "output/tables/management-cohort-resp.tex", replace tex(frag pr)
 regress management ib`T1'.cohort_respondent lnL foreign [pw=weight], cluster(tax_id)
+outreg2 using "output/tables/management-cohort-resp.tex", tex(frag pr)
 
-* FIXME: Geri, please create a figure with the point estimates and confidence intervals for cohort respondent
-* X axis: cohort of respondeny, Y axis, estimated management score, relative to baseline, 1945
 
 foreach X in management operations monitoring targets people {
     regress `X' modern_firm [pw=weight], cluster(tax_id)
+    outreg2 using "output/tables/`X'-modernity.tex", replace tex(frag pr)
     regress `X' modern_ceo [pw=weight], cluster(tax_id)
+    outreg2 using "output/tables/`X'-modernity.tex", tex(frag pr)
     regress `X' modern_respondent [pw=weight], cluster(tax_id)
+    outreg2 using "output/tables/`X'-modernity.tex", tex(frag pr)
     regress `X' modern_ceo modern_respondent [pw=weight], cluster(tax_id)
+    outreg2 using "output/tables/`X'-modernity.tex", tex(frag pr)
     regress `X' modern_ceo modern_respondent lnL foreign [pw=weight], cluster(tax_id)
+    outreg2 using "output/tables/`X'-modernity.tex", tex(frag pr)
 }
+
+
+* FIXME: Geri, please create a figure with the point estimates and confidence intervals for cohort respondent
+* X axis: cohort of respondency, Y axis, estimated management score, relative to baseline, 1945

@@ -1,0 +1,20 @@
+	(1)	(2)	(3)	(4)	(5)
+VARIABLES	management	management	management	management	management
+					
+modern_ceo		0.190		0.0589	0.0884
+		(0.140)		(0.149)	(0.114)
+modern_respondent			0.424***	0.383**	0.247*
+			(0.162)	(0.177)	(0.141)
+lnL					0.345***
+					(0.0577)
+foreign					0.482***
+					(0.113)
+modern_firm	-0.417**				
+	(0.168)				
+Constant	3.216***	2.736***	2.527***	2.518***	0.700**
+	(0.151)	(0.108)	(0.141)	(0.147)	(0.305)
+					
+Observations	118	115	118	115	115
+R-squared	0.029	0.017	0.067	0.065	0.413
+Robust standard errors in parentheses					
+*** p<0.01, ** p<0.05, * p<0.1					

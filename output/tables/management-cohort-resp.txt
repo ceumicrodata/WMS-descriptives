@@ -1,0 +1,32 @@
+	(1)	(2)
+VARIABLES	management	management
+		
+1950.cohort_respondent	0.162	0.0274
+	(0.331)	(0.231)
+1955.cohort_respondent	0.996***	0.533***
+	(0.180)	(0.173)
+1960.cohort_respondent	1.061***	0.728***
+	(0.281)	(0.255)
+1965.cohort_respondent	1.523***	1.044***
+	(0.202)	(0.156)
+1970.cohort_respondent	1.471***	0.872***
+	(0.158)	(0.180)
+1975.cohort_respondent	0.917***	0.610***
+	(0.200)	(0.179)
+1980.cohort_respondent	1.211***	0.801***
+	(0.188)	(0.160)
+1985.cohort_respondent	1.206***	0.756***
+	(0.270)	(0.209)
+1990.cohort_respondent	1.643***	0.972***
+	(0.130)	(0.200)
+lnL		0.305***
+		(0.0610)
+foreign		0.401***
+		(0.112)
+Constant	1.719***	0.455*
+	(0.110)	(0.271)
+		
+Observations	118	118
+R-squared	0.229	0.463
+Robust standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		

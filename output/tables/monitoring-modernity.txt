@@ -1,0 +1,20 @@
+	(1)	(2)	(3)	(4)	(5)
+VARIABLES	monitoring	monitoring	monitoring	monitoring	monitoring
+					
+modern_ceo		0.151		-0.0127	0.0267
+		(0.202)		(0.207)	(0.168)
+modern_respondent			0.486**	0.480**	0.295
+			(0.230)	(0.241)	(0.199)
+lnL					0.471***
+					(0.0908)
+foreign					0.645***
+					(0.175)
+modern_firm	-0.390				
+	(0.254)				
+Constant	3.258***	2.823***	2.547***	2.549***	0.0706
+	(0.231)	(0.141)	(0.201)	(0.207)	(0.460)
+					
+Observations	118	115	118	115	115
+R-squared	0.013	0.006	0.046	0.044	0.377
+Robust standard errors in parentheses					
+*** p<0.01, ** p<0.05, * p<0.1					
