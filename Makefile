@@ -2,12 +2,17 @@ STATA := stata -b do
 balance := input/merleg-LTS-2022/balance/balance_sheet_80_21.dta
 wms := input/wms-Hungary-2018/wms_hu_clean.dta
 ceo := input/ceo-panel/ceo-panel.dta
+wmsglobal := input/WMS-2014/wmsdata_2004_2015.csv
 
-temp/data.dta: src/merge/data.do temp/sample.dta temp/wms.dta temp/balance.dta temp/ceo.dta
+DATA := balance wms ceo wmsglobal
+
+output/fig/%.png: src/plot/%.do temp/data.dta
+	$(STATA) $<
+temp/data.dta: src/merge/data.do temp/sample.dta $(foreach d,$(DATA),temp/$(d).dta)
 	$(STATA) $<
 temp/sample.dta: src/merge/sample.do temp/wms.dta temp/balance.dta temp/ceo.dta 
 	$(STATA) $<
-temp/%.dta: src/read/%.do $(%) 
+temp/%.dta: src/read/%.do $(balance) $(wms) $(ceo) $(wmsglobal)
 	$(STATA) $<
 temp/%.dta: src/%.do
 	$(STATA) $<

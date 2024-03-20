@@ -15,31 +15,15 @@ drop europe
 describe, varlist
 local vars `r(varlist)'
 di "`vars'"
-preserve
 
-use "input/wms-Hungary-2018/wms_hu_analysis.dta", clear
-gen 	country = "Hungary"
-gen 	sic2 = .
-gen 	emp = "A) 50 to 100" 	if employment < 101
-replace emp = "B) 101 to 250" 	if employment < 251
-replace emp = "C) 251 to 500"	if employment < 501
-replace emp = "D) 501 to 1000"	if employment < 1001
-replace emp = "E) 1000+"	if employment > 1000
-drop employment 
-rename emp employment
-keep `vars'
-save "temp/hungarian_wave", replace
-
-restore
-
-append using "temp/hungarian_wave.dta"
+append using "temp/wms.dta"
 
 collapse (mean) management (count) n=management, by(country)
 gen 	country_type = 1 	if inlist(country, "Germany", "France", "Great_Britain", "Northern_Ireland", "Republic_of_Ireland") // Western
-replace country_type = 2 	if inlist(country, "Portugal", "Spain", "Italy", "Greece") //Mediterran
+replace country_type = 2 	if inlist(country, "Portugal", "Spain", "Italy", "Greece", "Turkey") //Mediterran
 replace country_type = 3 	if inlist(country, "Poland", "Hungary") //Post-Soviet
 replace country_type = 4 	if inlist(country, "Sweden") // Scandinavian
 label define ctypes 1 "Western" 2 "Mediterran" 3 "Post-Soviet" 4 "Scandinavian" 
 label values country_type ctypes
 
-save "temp/wms-by-country.dta", replace
+save "temp/wmsglobal.dta", replace

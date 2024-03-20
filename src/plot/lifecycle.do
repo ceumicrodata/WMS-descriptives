@@ -20,4 +20,4 @@ label variable age_at_entry "Age at first CEO job"
 label variable first_year_in_market "First year as CEO"
 
 tsline first_year_in_market, scheme(white_tableau)
-graph export "output/fig/life-cycle.png", replace width(1040)
+graph export "output/fig/lifecycle.png", replace width(1040)
