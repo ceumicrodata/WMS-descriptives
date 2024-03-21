@@ -51,8 +51,12 @@ local respondent_X respondent
 local respondent_controls `controls'
 local respcontrol_X respondent
 local respcontrol_controls i.cohort_ceo `controls'
+local ceodomestic_X ceo
+local ceodomestic_controls `controls' if !expat
+local ceoexpat_X ceo
+local ceoexpat_controls `controls' if expat
 
-foreach spec in ceo respondent respcontrol {
+foreach spec in ceo respondent respcontrol ceodomestic ceoexpat {
     local X ``spec'_X'
     local controls ``spec'_controls'
     regress management ib`T1'.cohort_`X' `controls' [pw=weight], cluster(tax_id)

@@ -22,24 +22,20 @@ aspectratio: 1610
 ![](fig/school-graduates.png)
 
 
-## Why Micro $\neq$ Macro
-### What we know 
-1. Management matters
-2. Training works
-3. Managers matter
+## We know that...
+### Management matters
+- Firms with better management practices are more productive (Bloom et al 2010).
+- Management can be improved by intensive training (Bloom et al 2013, Giorcelli 2019).
 
-\pause
+### Managers matter
+- Managers are important for firm performance (Bertrand and Schoar 2003, Bennedsen et al 2007).
+- Top CEOs are paid a lot (Gabaix and Landier 2008, Frydman et al 2010).
 
-### What we don't know
-1. What policy interventions can improve management for an entire country?
-2. How to quantify the macro effects of these policies?
-
-\pause
-
-### What we need
-1. Endogenous supply: how to incentivize people to become managers?
-2. Selection: who will become managers?
-3. Competition: what are the GE feedbacks of interventions?
+## Literature
+- Large-scale management interventions: Italy (Giorcelli 2019), US (Bianchi and Giorcelli 2022, Giorcelli 2023)
+- Large-scale education interventions: Italy (Bianchi and Giorcelli 2020), Colombia (Ferreyra et al 2023), Vietnam (Vu 2023)
+- Selection by skill: Denmark (Akcigit, Pearce and Prato 2020)
+- Calibrated models with education and selection: Guner et al 2008, Bhattacharya et al. 2013, Gomes and Kuehn 2017 and Esfahani 2019.
 
 # Setup and Data
 ## Data
@@ -51,6 +47,29 @@ Full biographies (school, work experience, etc.) for 63k people in 2013. 30k mat
 
 ### College graduates
 Number of gradues by degree and year.
+
+## Measuring Manager Quality
+Log employment of firm $i$ in year $t$ in industry $s$, with a mananager having entered in cohort $c$ is
+$$
+\ln L_{icst} = \beta_1\text{manager\_age}_{ict} + \beta_2\text{firm\_age}_{ict}  + \mu_{c} + \xi_{st} + \epsilon_{ict}.
+$$
+
+Quality: $\mu_c$
+
+## Degree of Selection
+$$
+\ln \pi_{ic} = \theta\ln\lambda_i  - \theta \mu_c + \varepsilon_{ic}.
+$$
+
+Selectivity: $\theta$
+
+## Manager Selection by Degree
+\input{tables/selectivity.tex}
+
+## Quantity Up, Quality Down
+![](fig/ceo-flow-with-FE.png)
+
+
 
 # World Management Survey
 ## Methodology
@@ -96,7 +115,9 @@ Sample: 762 firms.
 ## Larger foreign firms are better managed
 \input{tables/management-lnL.tex}
 
-## Owner-managed firms are worse
+## Management improves labor productivity
+\input{tables/outcomes-management.tex}
+
 
 # Cohort Effects
 ## Distribution of birth years of respondents
@@ -114,4 +135,8 @@ Sample: 762 firms.
 ## ????
 ![](fig/cohort-respcontrol-marginsplot.png)
 
-## Cohort effects only matter for domestic firms
+## Cohort effects only matter for domestic CEOs
+![](fig/cohort-ceodomestic-marginsplot.png)
+
+## ...not for expats
+![](fig/cohort-ceoexpat-marginsplot.png)

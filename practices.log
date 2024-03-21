@@ -96,6 +96,28 @@ Linear regression                               Number of obs     =        118
 output/tables/management-lnL.tex
 dir : seeout
 
+. regress management lnL entrepreneur [pw=weight], robust
+(sum of wgt is 199.2858448000001)
+
+Linear regression                               Number of obs     =        118
+                                                F(2, 115)         =      35.07
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3243
+                                                Root MSE          =     .59908
+
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         lnL |   .3818581   .0615333     6.21   0.000     .2599724    .5037437
+entrepreneur |  -.3185431   .1283767    -2.48   0.015    -.5728326   -.0642537
+       _cons |   1.067653   .3524714     3.03   0.003     .3694747    1.765831
+------------------------------------------------------------------------------
+
+. outreg2 using "output/tables/management-lnL.tex",replace tex(frag pr)
+output/tables/management-lnL.tex
+dir : seeout
+
 . regress management lnL foreign [pw=weight], robust
 (sum of wgt is 199.2858448000001)
 
@@ -118,23 +140,44 @@ Linear regression                               Number of obs     =        118
 output/tables/management-lnL.tex
 dir : seeout
 
-. regress management lnL foreign exporter [pw=weight], robust
+. regress management lnL exporter [pw=weight], robust
 (sum of wgt is 199.2858448000001)
 
 Linear regression                               Number of obs     =        118
-                                                F(3, 114)         =      24.66
+                                                F(2, 115)         =      31.05
                                                 Prob > F          =     0.0000
-                                                R-squared         =     0.3796
-                                                Root MSE          =     .57655
+                                                R-squared         =     0.3045
+                                                Root MSE          =      .6078
 
 ------------------------------------------------------------------------------
              |               Robust
   management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-         lnL |   .3258157    .066542     4.90   0.000     .1939966    .4576349
-     foreign |   .4366383   .1113949     3.92   0.000     .2159658    .6573107
-    exporter |   .1960141   .1577617     1.24   0.217    -.1165107    .5085388
-       _cons |   .8904609    .305554     2.91   0.004     .2851608    1.495761
+         lnL |   .3984952    .067855     5.87   0.000     .2640875    .5329029
+    exporter |   .2737166   .1651633     1.66   0.100    -.0534402    .6008733
+       _cons |   .6372931   .3200949     1.99   0.049     .0032467     1.27134
+------------------------------------------------------------------------------
+
+. outreg2 using "output/tables/management-lnL.tex", tex(frag pr)
+output/tables/management-lnL.tex
+dir : seeout
+
+. regress management lnL expat [pw=weight], robust
+(sum of wgt is 199.2858448000001)
+
+Linear regression                               Number of obs     =        118
+                                                F(2, 115)         =      29.25
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2870
+                                                Root MSE          =      .6154
+
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         lnL |   .4486869   .0599865     7.48   0.000     .3298652    .5675086
+       expat |   .0990549   .1515051     0.65   0.515    -.2010475    .3991574
+       _cons |   .5779538   .3190951     1.81   0.073    -.0541121     1.21002
 ------------------------------------------------------------------------------
 
 . outreg2 using "output/tables/management-lnL.tex", tex(frag pr)

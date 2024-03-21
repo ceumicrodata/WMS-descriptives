@@ -446,8 +446,16 @@ dir : seeout
 
 . local respcontrol_controls i.cohort_ceo `controls'
 
+. local ceodomestic_X ceo
+
+. local ceodomestic_controls `controls' if !expat
+
+. local ceoexpat_X ceo
+
+. local ceoexpat_controls `controls' if expat
+
 . 
-. foreach spec in ceo respondent respcontrol {
+. foreach spec in ceo respondent respcontrol ceodomestic ceoexpat {
   2.     local X ``spec'_X'
   3.     local controls ``spec'_controls'
   4.     regress management ib`T1'.cohort_`X' `controls' [pw=weight], cluster(t
@@ -657,6 +665,118 @@ Variables that uniquely identify margins: _deriv
 file output/fig/cohort-respcontrol-marginsplot.png written in PNG format
 (start=1945, width=5)
 file output/fig/cohort-respcontrol-histogram.png written in PNG format
+(sum of wgt is 152.5995714)
+
+Linear regression                               Number of obs     =         87
+                                                F(10, 86)         =      12.48
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4272
+                                                Root MSE          =     .58012
+
+                                (Std. err. adjusted for 87 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  cohort_ceo |
+       1950  |    .341011   .2655554     1.28   0.203    -.1868956    .8689175
+       1955  |   .8801967   .2674956     3.29   0.001     .3484331     1.41196
+       1960  |   1.089583   .2190375     4.97   0.000     .6541513    1.525016
+       1965  |    .965645   .2543484     3.80   0.000     .4600171    1.471273
+       1970  |   .9397925   .2458336     3.82   0.000     .4510915    1.428493
+       1975  |   .9525663    .307581     3.10   0.003     .3411155    1.564017
+       1980  |   .9585323   .2789354     3.44   0.001      .404027    1.513038
+       1985  |   .2667172   .1984547     1.34   0.182    -.1277977     .661232
+             |
+     foreign |   .4319686   .1613706     2.68   0.009     .1111745    .7527627
+entrepreneur |  -.2110012   .1595069    -1.32   0.189    -.5280904     .106088
+       _cons |   1.968811   .2298865     8.56   0.000     1.511812     2.42581
+------------------------------------------------------------------------------
+output/tables/management-cohort-ceo.tex
+dir : seeout
+
+Average marginal effects                                    Number of obs = 87
+Model VCE: Robust
+
+Expression: Linear prediction, predict()
+dy/dx wrt:  1950.cohort_ceo 1955.cohort_ceo 1960.cohort_ceo 1965.cohort_ceo
+            1970.cohort_ceo 1975.cohort_ceo 1980.cohort_ceo 1985.cohort_ceo
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  cohort_ceo |
+       1950  |    .341011   .2655554     1.28   0.203    -.1868956    .8689175
+       1955  |   .8801967   .2674956     3.29   0.001     .3484331     1.41196
+       1960  |   1.089583   .2190375     4.97   0.000     .6541513    1.525016
+       1965  |    .965645   .2543484     3.80   0.000     .4600171    1.471273
+       1970  |   .9397925   .2458336     3.82   0.000     .4510915    1.428493
+       1975  |   .9525663    .307581     3.10   0.003     .3411155    1.564017
+       1980  |   .9585323   .2789354     3.44   0.001      .404027    1.513038
+       1985  |   .2667172   .1984547     1.34   0.182    -.1277977     .661232
+------------------------------------------------------------------------------
+Note: dy/dx for factor levels is the discrete change from the base level.
+
+Variables that uniquely identify margins: _deriv
+file output/fig/cohort-ceodomestic-marginsplot.png written in PNG format
+(start=1945, width=5)
+file output/fig/cohort-ceodomestic-histogram.png written in PNG format
+(sum of wgt is 42.4055143)
+
+Linear regression                               Number of obs     =         28
+                                                F(7, 27)          =          .
+                                                Prob > F          =          .
+                                                R-squared         =     0.4277
+                                                Root MSE          =     .64982
+
+                                (Std. err. adjusted for 28 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  cohort_ceo |
+       1950  |   .4228733   .4368077     0.97   0.342    -.4733821    1.319129
+       1955  |   .0509777   .4491485     0.11   0.910    -.8705989    .9725543
+       1960  |   .1187331   .3339882     0.36   0.725    -.5665541    .8040204
+       1965  |  -.1087033   .2987776    -0.36   0.719    -.7217442    .5043376
+       1970  |  -.2646009   .7227735    -0.37   0.717     -1.74761    1.218408
+       1975  |  -.3798129   .3080426    -1.23   0.228    -1.011864    .2522383
+             |
+     foreign |   1.162423   .4526303     2.57   0.016     .2337025    2.091144
+entrepreneur |  -.4977914   .3455643    -1.44   0.161    -1.206831     .211248
+       _cons |   2.092317   .5821646     3.59   0.001     .8978137     3.28682
+------------------------------------------------------------------------------
+output/tables/management-cohort-ceo.tex
+dir : seeout
+
+Average marginal effects                                    Number of obs = 28
+Model VCE: Robust
+
+Expression: Linear prediction, predict()
+dy/dx wrt:  1950.cohort_ceo 1955.cohort_ceo 1960.cohort_ceo 1965.cohort_ceo
+            1970.cohort_ceo 1975.cohort_ceo
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  cohort_ceo |
+       1950  |   .4228733   .4368077     0.97   0.342    -.4733821    1.319129
+       1955  |   .0509777   .4491485     0.11   0.910    -.8705989    .9725543
+       1960  |   .1187331   .3339882     0.36   0.725    -.5665541    .8040204
+       1965  |  -.1087033   .2987776    -0.36   0.719    -.7217442    .5043376
+       1970  |  -.2646009   .7227735    -0.37   0.717     -1.74761    1.218408
+       1975  |  -.3798129   .3080426    -1.23   0.228    -1.011864    .2522383
+------------------------------------------------------------------------------
+Note: dy/dx for factor levels is the discrete change from the base level.
+
+Variables that uniquely identify margins: _deriv
+(file output/fig/cohort-ceoexpat-marginsplot.png not found)
+file output/fig/cohort-ceoexpat-marginsplot.png written in PNG format
+(start=1945, width=5)
+(file output/fig/cohort-ceoexpat-histogram.png not found)
+file output/fig/cohort-ceoexpat-histogram.png written in PNG format
 
 . predict management_p
 (option xb assumed; fitted values)

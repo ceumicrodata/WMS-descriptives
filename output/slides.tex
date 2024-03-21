@@ -209,49 +209,50 @@ Attila Kiss (HUN-REN KRTK, CEU and KSH)}
 \includegraphics{fig/school-graduates.png}
 \end{frame}
 
-\begin{frame}{Why Micro \(\neq\) Macro}
-\protect\hypertarget{why-micro-neq-macro}{}
-\begin{block}{What we know}
-\protect\hypertarget{what-we-know}{}
-\begin{enumerate}
+\begin{frame}{We know that\ldots{}}
+\protect\hypertarget{we-know-that}{}
+\begin{block}{Management matters}
+\protect\hypertarget{management-matters}{}
+\begin{itemize}
 \tightlist
 \item
-  Management matters
+  Firms with better management practices are more productive (Bloom et
+  al 2010).
 \item
-  Training works
-\item
-  Managers matter
-\end{enumerate}
-
-\pause
+  Management can be improved by intensive training (Bloom et al 2013,
+  Giorcelli 2019).
+\end{itemize}
 \end{block}
 
-\begin{block}{What we don't know}
-\protect\hypertarget{what-we-dont-know}{}
-\begin{enumerate}
+\begin{block}{Managers matter}
+\protect\hypertarget{managers-matter}{}
+\begin{itemize}
 \tightlist
 \item
-  What policy interventions can improve management for an entire
-  country?
+  Managers are important for firm performance (Bertrand and Schoar 2003,
+  Bennedsen et al 2007).
 \item
-  How to quantify the macro effects of these policies?
-\end{enumerate}
-
-\pause
+  Top CEOs are paid a lot (Gabaix and Landier 2008, Frydman et al 2010).
+\end{itemize}
 \end{block}
+\end{frame}
 
-\begin{block}{What we need}
-\protect\hypertarget{what-we-need}{}
-\begin{enumerate}
+\begin{frame}{Literature}
+\protect\hypertarget{literature}{}
+\begin{itemize}
 \tightlist
 \item
-  Endogenous supply: how to incentivize people to become managers?
+  Large-scale management interventions: Italy (Giorcelli 2019), US
+  (Bianchi and Giorcelli 2022, Giorcelli 2023)
 \item
-  Selection: who will become managers?
+  Large-scale education interventions: Italy (Bianchi and Giorcelli
+  2020), Colombia (Ferreyra et al 2023), Vietnam (Vu 2023)
 \item
-  Competition: what are the GE feedbacks of interventions?
-\end{enumerate}
-\end{block}
+  Selection by skill: Denmark (Akcigit, Pearce and Prato 2020)
+\item
+  Calibrated models with education and selection: Guner et al 2008,
+  Bhattacharya et al.~2013, Gomes and Kuehn 2017 and Esfahani 2019.
+\end{itemize}
 \end{frame}
 
 \section{Setup and Data}\label{setup-and-data}
@@ -274,6 +275,35 @@ Full biographies (school, work experience, etc.) for 63k people in 2013.
 \protect\hypertarget{college-graduates}{}
 Number of gradues by degree and year.
 \end{block}
+\end{frame}
+
+\begin{frame}{Measuring Manager Quality}
+\protect\hypertarget{measuring-manager-quality}{}
+Log employment of firm \(i\) in year \(t\) in industry \(s\), with a
+mananager having entered in cohort \(c\) is \[
+\ln L_{icst} = \beta_1\text{manager\_age}_{ict} + \beta_2\text{firm\_age}_{ict}  + \mu_{c} + \xi_{st} + \epsilon_{ict}.
+\]
+
+Quality: \(\mu_c\)
+\end{frame}
+
+\begin{frame}{Degree of Selection}
+\protect\hypertarget{degree-of-selection}{}
+\[
+\ln \pi_{ic} = \theta\ln\lambda_i  - \theta \mu_c + \varepsilon_{ic}.
+\]
+
+Selectivity: \(\theta\)
+\end{frame}
+
+\begin{frame}{Manager Selection by Degree}
+\protect\hypertarget{manager-selection-by-degree}{}
+\input{tables/selectivity.tex}
+\end{frame}
+
+\begin{frame}{Quantity Up, Quality Down}
+\protect\hypertarget{quantity-up-quality-down}{}
+\includegraphics{fig/ceo-flow-with-FE.png}
 \end{frame}
 
 \section{World Management Survey}\label{world-management-survey}
@@ -352,8 +382,9 @@ Sample: 762 firms.
 \input{tables/management-lnL.tex}
 \end{frame}
 
-\begin{frame}{Owner-managed firms are worse}
-\protect\hypertarget{owner-managed-firms-are-worse}{}
+\begin{frame}{Management improves labor productivity}
+\protect\hypertarget{management-improves-labor-productivity}{}
+\input{tables/outcomes-management.tex}
 \end{frame}
 
 \section{Cohort Effects}\label{cohort-effects}
@@ -383,8 +414,14 @@ Sample: 762 firms.
 \includegraphics{fig/cohort-respcontrol-marginsplot.png}
 \end{frame}
 
-\begin{frame}{Cohort effects only matter for domestic firms}
-\protect\hypertarget{cohort-effects-only-matter-for-domestic-firms}{}
+\begin{frame}{Cohort effects only matter for domestic CEOs}
+\protect\hypertarget{cohort-effects-only-matter-for-domestic-ceos}{}
+\includegraphics{fig/cohort-ceodomestic-marginsplot.png}
+\end{frame}
+
+\begin{frame}{\ldots not for expats}
+\protect\hypertarget{not-for-expats}{}
+\includegraphics{fig/cohort-ceoexpat-marginsplot.png}
 \end{frame}
 
 \end{document}
