@@ -21,6 +21,9 @@ aspectratio: 1610
 ## Business Degrees Became More Prominent
 ![](fig/school-graduates.png)
 
+## Would you like to be an entrepreneur?
+![](fig/lengyel1997.png)
+
 
 ## We know that...
 ### Management matters
@@ -34,11 +37,11 @@ aspectratio: 1610
 ## Literature
 - Large-scale management interventions: Italy (Giorcelli 2019), US (Bianchi and Giorcelli 2022, Giorcelli 2023)
 - Large-scale education interventions: Italy (Bianchi and Giorcelli 2020), Colombia (Ferreyra et al 2023), Vietnam (Vu 2023)
-- Selection by skill: Denmark (Akcigit, Pearce and Prato 2020)
-- Calibrated models with education and selection: Guner et al 2008, Bhattacharya et al. 2013, Gomes and Kuehn 2017 and Esfahani 2019.
+- Attitudes and histories of entrepreneurs in the transition period: Lengyel György et al (1989...), Laki and Szalai (2004, 2013), Alas and Aarna (2016)
+- Long-lasting effects of socialism: Fuchs-Schündeln and Masella (2016), Fuchs-Schündeln and Schündeln (2020)
 
-# Setup and Data
-## Data
+# Data
+## Administrative Data
 ### Manager Data 1985-2019
 Universe of corporations (1m) and their CEOs (1.3m). Firm size (employment) as proxy for manager quality.
 
@@ -47,6 +50,10 @@ Full biographies (school, work experience, etc.) for 63k people in 2013. 30k mat
 
 ### College graduates
 Number of gradues by degree and year.
+
+## Large Firms are Overrepresented in Who is Who
+![](fig/firm-wiw.png)
+
 
 ## Measuring Manager Quality
 Log employment of firm $i$ in year $t$ in industry $s$, with a mananager having entered in cohort $c$ is
@@ -73,6 +80,12 @@ Selectivity: $\theta$
 
 # World Management Survey
 ## Methodology
+Structured phone interview with operations manager or CEO. 40-60 minutes.
+
+"What do you do when there is a production problem?" "How do you motivate your employees?" "What happens if you don't meet your target?"
+
+Scored on 18 dimensions, 1-5 scale. Higher is better.
+
 ## Hungarian wave
 Spring and Summer of 2018.
 
@@ -90,8 +103,14 @@ Sample: 762 firms.
 4. 126 (87%) completed the interview
 6. 118 (94%) usable responses
 
-# Validation
+## Where is Hungary?
+![](fig/management-means.png)
 
+## Richer countries have better management
+![](fig/management-vs-gdp.png)
+
+
+# Validation
 ## How old is your firm?
 ![](fig/firm_age_validation.png)
 
@@ -126,17 +145,24 @@ Sample: 762 firms.
 ## Distribution of birth years of CEOs
 ![](fig/cohort-ceo-histogram.png)
 
-## Older cohorts are worse managers
+## Older respondents are worse managers
 ![](fig/cohort-respondent-marginsplot.png)
 
-## ????
+## Older CEOs are worse managers
 ![](fig/cohort-ceo-marginsplot.png)
-
-## ????
-![](fig/cohort-respcontrol-marginsplot.png)
 
 ## Cohort effects only matter for domestic CEOs
 ![](fig/cohort-ceodomestic-marginsplot.png)
 
 ## ...not for expats
 ![](fig/cohort-ceoexpat-marginsplot.png)
+
+# Conclusion
+## Summary
+1. Management scores meanigfully correlate with firm outcomes.
+2. Hungarian managers are worse than in richer countries.
+3. Especially those born before 1955.
+
+## Next Steps
+1. Collect data from other countries: Germany, Poland.
+2. Investigate the role of education and training in management quality.
