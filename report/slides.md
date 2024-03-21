@@ -22,7 +22,7 @@ aspectratio: 1610
 ![](fig/school-graduates.png)
 
 ## Would you like to be an entrepreneur?
-![](fig/lengyel1997.png)
+![Lengyel, 1997, Fig 1](fig/lengyel1997.png)
 
 
 ## We know that...
@@ -40,6 +40,12 @@ aspectratio: 1610
 - Attitudes and histories of entrepreneurs in the transition period: Lengyel György et al (1989...), Laki and Szalai (2004, 2013), Alas and Aarna (2016)
 - Long-lasting effects of socialism: Fuchs-Schündeln and Masella (2016), Fuchs-Schündeln and Schündeln (2020)
 
+## This paper
+1. Study Hungarian managers and their management practices
+    - administrative data (1985-2019)
+    - original survey (2018)
+2. Explore cohort effects: how old was the manager in 1990?
+
 # Data
 ## Administrative Data
 ### Manager Data 1985-2019
@@ -50,6 +56,9 @@ Full biographies (school, work experience, etc.) for 63k people in 2013. 30k mat
 
 ### College graduates
 Number of gradues by degree and year.
+
+### World Management Survey
+Survey of Hungarian manufacturing firms, 2018.
 
 ## Large Firms are Overrepresented in Who is Who
 ![](fig/firm-wiw.png)
@@ -62,16 +71,6 @@ $$
 $$
 
 Quality: $\mu_c$
-
-## Degree of Selection
-$$
-\ln \pi_{ic} = \theta\ln\lambda_i  - \theta \mu_c + \varepsilon_{ic}.
-$$
-
-Selectivity: $\theta$
-
-## Manager Selection by Degree
-\input{tables/selectivity.tex}
 
 ## Quantity Up, Quality Down
 ![](fig/ceo-flow-with-FE.png)
