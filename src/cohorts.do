@@ -45,11 +45,11 @@ foreach X in cohort_firm cohort_ceo cohort_respondent cohort_entry comp_tenure p
 }
 
 local ceo_X ceo
-local ceo_controls lnL foreign
+local ceo_controls foreign
 local respondent_X respondent
-local respondent_controls lnL foreign
+local respondent_controls foreign
 local respcontrol_X respondent
-local respcontrol_controls i.cohort_ceo lnL foreign
+local respcontrol_controls i.cohort_ceo foreign
 
 foreach spec in ceo respondent respcontrol {
     local X ``spec'_X'
