@@ -44,12 +44,13 @@ foreach X in cohort_firm cohort_ceo cohort_respondent cohort_entry comp_tenure p
     outreg2 using "output/tables/management-`X'.tex", replace tex(frag pr)
 }
 
+local controls foreign entrepreneur
 local ceo_X ceo
-local ceo_controls foreign
+local ceo_controls `controls'
 local respondent_X respondent
-local respondent_controls foreign
+local respondent_controls `controls'
 local respcontrol_X respondent
-local respcontrol_controls i.cohort_ceo foreign
+local respcontrol_controls i.cohort_ceo `controls'
 
 foreach spec in ceo respondent respcontrol {
     local X ``spec'_X'

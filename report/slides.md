@@ -96,6 +96,8 @@ Sample: 762 firms.
 ## Larger foreign firms are better managed
 \input{tables/management-lnL.tex}
 
+## Owner-managed firms are worse
+
 # Cohort Effects
 ## Distribution of birth years of respondents
 ![](fig/cohort-respondent-histogram.png)
@@ -108,3 +110,8 @@ Sample: 762 firms.
 
 ## ????
 ![](fig/cohort-ceo-marginsplot.png)
+
+## ????
+![](fig/cohort-respcontrol-marginsplot.png)
+
+## Cohort effects only matter for domestic firms
