@@ -3,7 +3,6 @@ use "temp/data.dta"
 
 do "src/create/variables.do"
 
-* FIXME: Geri, can you save these regression tables with outreg2 or estout?
 regress management lnL [pw=weight], robust
 outreg2 using "output/tables/management-lnL.tex",replace tex(frag pr)
 regress management lnL foreign [pw=weight], robust

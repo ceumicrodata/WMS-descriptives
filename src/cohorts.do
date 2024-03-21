@@ -32,7 +32,14 @@ regress management i.cohort_respondent [pw=weight], cluster(tax_id)
 outreg2 using "output/tables/management-cohort-resp.tex", replace tex(frag pr)
 regress management ib`T1'.cohort_respondent lnL foreign [pw=weight], cluster(tax_id)
 outreg2 using "output/tables/management-cohort-resp.tex", tex(frag pr)
-
+predict management_p
+* FIXME: Geri, please create a figure with the point estimates and confidence intervals for cohort respondent
+coefplot, drop(lnL foreign _cons) xline(0)
+graph export "output/fig/cohort-resp-coefplot.png", replace
+* X axis: cohort of respondency, Y axis, estimated management score, relative to baseline, 1945
+margins,dydx(ib1945.cohort_respondent)
+marginsplot, recast(scatter) yline(0) nolabels xlabel(1 "1950" 2 "1955" 3 "1960" 4 "1965" 5 "1970" 6 "1975" 7 "1980" 8 "1985" 9 "1990") 
+graph export "output/fig/cohort-resp-marginsplot.png", replace
 
 foreach X in management operations monitoring targets people {
     regress `X' modern_firm [pw=weight], cluster(tax_id)
@@ -48,5 +55,3 @@ foreach X in management operations monitoring targets people {
 }
 
 
-* FIXME: Geri, please create a figure with the point estimates and confidence intervals for cohort respondent
-* X axis: cohort of respondency, Y axis, estimated management score, relative to baseline, 1945
