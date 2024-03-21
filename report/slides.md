@@ -97,5 +97,14 @@ Sample: 762 firms.
 \input{tables/management-lnL.tex}
 
 # Cohort Effects
+## Distribution of birth years of respondents
+![](fig/cohort-respondent-histogram.png)
+
+## Distribution of birth years of CEOs
+![](fig/cohort-ceo-histogram.png)
+
 ## Older cohorts are worse managers
-![](fig/cohort-resp-marginsplot.png)
+![](fig/cohort-respondent-marginsplot.png)
+
+## ????
+![](fig/cohort-ceo-marginsplot.png)

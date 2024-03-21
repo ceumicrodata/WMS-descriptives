@@ -265,8 +265,81 @@ cohort_res~t |
 output/tables/management-cohort-resp.tex
 dir : seeout
 
-. regress management ib`T1'.cohort_respondent lnL foreign [pw=weight], cluster(
+. 
+. foreach X in ceo respondent {
+  2.     regress management ib`T1'.cohort_`X' lnL foreign [pw=weight], cluster(
 > tax_id)
+  3.     outreg2 using "output/tables/management-cohort-`X'.tex", tex(frag pr)
+  4. 
+.     * X axis: cohort of respondency, Y axis, estimated management score, rela
+> tive to baseline, 1945
+.     margins, dydx(ib1945.cohort_`X')
+  5.     marginsplot, recast(scatter) yline(0) nolabels xlabel(1 "1950" 2 "1955
+> " 3 "1960" 4 "1965" 5 "1970" 6 "1975" 7 "1980" 8 "1985" 9 "1990") xtitle("Bir
+> th year of `X'") ytitle("Management score, relative to 1945")
+  6.     graph export "output/fig/cohort-`X'-marginsplot.png", replace
+  7. 
+.     histogram cohort_`X', discrete freq width(5) xtitle("Birth year of `X'") 
+> ytitle("Number of firms")
+  8.     graph export "output/fig/cohort-`X'-histogram.png", replace
+  9. }
+(sum of wgt is 195.0050857)
+
+Linear regression                               Number of obs     =        115
+                                                F(10, 114)        =      20.42
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4851
+                                                Root MSE          =      .5439
+
+                               (Std. err. adjusted for 115 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  cohort_ceo |
+       1950  |   .2202456   .2166973     1.02   0.312      -.20903    .6495212
+       1955  |   .6245109   .1974395     3.16   0.002     .2333848    1.015637
+       1960  |   .8332051   .1661374     5.02   0.000     .5040882    1.162322
+       1965  |   .6872182   .1707324     4.03   0.000     .3489986    1.025438
+       1970  |   .6933783   .1796621     3.86   0.000     .3374691    1.049288
+       1975  |   .7773462   .2452897     3.17   0.002     .2914291    1.263263
+       1980  |   .7193654   .2070099     3.48   0.001     .3092803    1.129451
+       1985  |   .2450315   .1532766     1.60   0.113    -.0586083    .5486712
+             |
+         lnL |   .3196076   .0549106     5.82   0.000       .21083    .4283851
+     foreign |   .4123986   .1136126     3.63   0.000     .1873328    .6374644
+       _cons |   .4785637   .2906827     1.65   0.102    -.0972765    1.054404
+------------------------------------------------------------------------------
+output/tables/management-cohort-ceo.tex
+dir : seeout
+
+Average marginal effects                                   Number of obs = 115
+Model VCE: Robust
+
+Expression: Linear prediction, predict()
+dy/dx wrt:  1950.cohort_ceo 1955.cohort_ceo 1960.cohort_ceo 1965.cohort_ceo
+            1970.cohort_ceo 1975.cohort_ceo 1980.cohort_ceo 1985.cohort_ceo
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  cohort_ceo |
+       1950  |   .2202456   .2166973     1.02   0.312      -.20903    .6495212
+       1955  |   .6245109   .1974395     3.16   0.002     .2333848    1.015637
+       1960  |   .8332051   .1661374     5.02   0.000     .5040882    1.162322
+       1965  |   .6872182   .1707324     4.03   0.000     .3489986    1.025438
+       1970  |   .6933783   .1796621     3.86   0.000     .3374691    1.049288
+       1975  |   .7773462   .2452897     3.17   0.002     .2914291    1.263263
+       1980  |   .7193654   .2070099     3.48   0.001     .3092803    1.129451
+       1985  |   .2450315   .1532766     1.60   0.113    -.0586083    .5486712
+------------------------------------------------------------------------------
+Note: dy/dx for factor levels is the discrete change from the base level.
+
+Variables that uniquely identify margins: _deriv
+file output/fig/cohort-ceo-marginsplot.png written in PNG format
+(start=1945, width=5)
+file output/fig/cohort-ceo-histogram.png written in PNG format
 (sum of wgt is 199.2858448)
 
 Linear regression                               Number of obs     =        118
@@ -295,18 +368,8 @@ cohort_res~t |
      foreign |   .4005131   .1116383     3.59   0.000     .1794192     .621607
        _cons |   .4547654   .2707376     1.68   0.096    -.0814162    .9909469
 ------------------------------------------------------------------------------
-
-. outreg2 using "output/tables/management-cohort-resp.tex", tex(frag pr)
-output/tables/management-cohort-resp.tex
+output/tables/management-cohort-respondent.tex
 dir : seeout
-
-. predict management_p
-(option xb assumed; fitted values)
-
-. 
-. * X axis: cohort of respondency, Y axis, estimated management score, relative
->  to baseline, 1945
-. margins, dydx(ib1945.cohort_respondent)
 
 Average marginal effects                                   Number of obs = 118
 Model VCE: Robust
@@ -335,14 +398,13 @@ cohort_res~t |
 ------------------------------------------------------------------------------
 Note: dy/dx for factor levels is the discrete change from the base level.
 
-. marginsplot, recast(scatter) yline(0) nolabels xlabel(1 "1950" 2 "1955" 3 "19
-> 60" 4 "1965" 5 "1970" 6 "1975" 7 "1980" 8 "1985" 9 "1990") xtitle("Birth year
->  of respondent") ytitle("Management score, relative to 1945")
-
 Variables that uniquely identify margins: _deriv
+file output/fig/cohort-respondent-marginsplot.png written in PNG format
+(start=1945, width=5)
+file output/fig/cohort-respondent-histogram.png written in PNG format
 
-. graph export "output/fig/cohort-resp-marginsplot.png", replace
-file output/fig/cohort-resp-marginsplot.png written in PNG format
+. predict management_p
+(option xb assumed; fitted values)
 
 . 
 . foreach X in management operations monitoring targets people {
