@@ -90,3 +90,12 @@ Sample: 762 firms.
 
 ## ...if the respondent **is** the CEO
 ![](fig/birth_year_validation_cleaned.png)
+
+# Management Scores
+
+## Larger foreign firms are better managed
+\input{tables/management-lnL.tex}
+
+# Cohort Effects
+## Older cohorts are worse managers
+![](fig/cohort-resp-marginsplot.png)
