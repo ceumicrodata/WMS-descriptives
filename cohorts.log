@@ -266,23 +266,38 @@ output/tables/management-cohort-resp.tex
 dir : seeout
 
 . 
-. foreach X in ceo respondent {
-  2.     regress management ib`T1'.cohort_`X' lnL foreign [pw=weight], cluster(
-> tax_id)
-  3.     outreg2 using "output/tables/management-cohort-`X'.tex", tex(frag pr)
-  4. 
+. local ceo_X ceo
+
+. local ceo_controls lnL foreign
+
+. local respondent_X respondent
+
+. local respondent_controls lnL foreign
+
+. local respcontrol_X respondent
+
+. local respcontrol_controls i.cohort_ceo lnL foreign
+
+. 
+. foreach spec in ceo respondent respcontrol {
+  2.     local X ``spec'_X'
+  3.     local controls ``spec'_controls'
+  4.     regress management ib`T1'.cohort_`X' `controls' [pw=weight], cluster(t
+> ax_id)
+  5.     outreg2 using "output/tables/management-cohort-`X'.tex", tex(frag pr)
+  6. 
 .     * X axis: cohort of respondency, Y axis, estimated management score, rela
 > tive to baseline, 1945
 .     margins, dydx(ib1945.cohort_`X')
-  5.     marginsplot, recast(scatter) yline(0) nolabels xlabel(1 "1950" 2 "1955
+  7.     marginsplot, recast(scatter) yline(0) nolabels xlabel(1 "1950" 2 "1955
 > " 3 "1960" 4 "1965" 5 "1970" 6 "1975" 7 "1980" 8 "1985" 9 "1990") xtitle("Bir
 > th year of `X'") ytitle("Management score, relative to 1945")
-  6.     graph export "output/fig/cohort-`X'-marginsplot.png", replace
-  7. 
+  8.     graph export "output/fig/cohort-`spec'-marginsplot.png", replace
+  9. 
 .     histogram cohort_`X', discrete freq width(5) xtitle("Birth year of `X'") 
 > ytitle("Number of firms")
-  8.     graph export "output/fig/cohort-`X'-histogram.png", replace
-  9. }
+ 10.     graph export "output/fig/cohort-`spec'-histogram.png", replace
+ 11. }
 (sum of wgt is 195.0050857)
 
 Linear regression                               Number of obs     =        115
@@ -402,9 +417,84 @@ Variables that uniquely identify margins: _deriv
 file output/fig/cohort-respondent-marginsplot.png written in PNG format
 (start=1945, width=5)
 file output/fig/cohort-respondent-histogram.png written in PNG format
+(sum of wgt is 195.0050857)
+
+Linear regression                               Number of obs     =        115
+                                                F(19, 114)        =      16.31
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5283
+                                                Root MSE          =     .54473
+
+                               (Std. err. adjusted for 115 clusters in tax_id)
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+cohort_res~t |
+       1950  |  -.0753424   .4443961    -0.17   0.866    -.9556875    .8050028
+       1955  |   .2003113   .2598126     0.77   0.442    -.3143755    .7149981
+       1960  |   .2602627   .3932305     0.66   0.509    -.5187239    1.039249
+       1965  |   .5701421   .3661278     1.56   0.122    -.1551543    1.295439
+       1970  |   .4895105   .3855389     1.27   0.207    -.2742392     1.25326
+       1975  |   .1351342   .3664747     0.37   0.713    -.5908493    .8611177
+       1980  |   .3194087   .3422191     0.93   0.353    -.3585246    .9973421
+       1985  |   .5329354   .3728361     1.43   0.156      -.20565    1.271521
+       1990  |   .4749335   .3734202     1.27   0.206     -.264809    1.214676
+             |
+  cohort_ceo |
+       1950  |   .1100493   .3642182     0.30   0.763    -.6114642    .8315628
+       1955  |   .4874785   .2845672     1.71   0.089    -.0762469    1.051204
+       1960  |    .576022   .3240931     1.78   0.078     -.066004    1.218048
+       1965  |   .4841313   .3263048     1.48   0.141    -.1622761    1.130539
+       1970  |   .4134389   .3409159     1.21   0.228    -.2619128    1.088791
+       1975  |   .7077138   .3994276     1.77   0.079    -.0835492    1.498977
+       1980  |   .6003011   .3417153     1.76   0.082    -.0766342    1.277236
+       1985  |  -.1112582    .353794    -0.31   0.754    -.8121214     .589605
+             |
+         lnL |   .2775225   .0636703     4.36   0.000     .1513921     .403653
+     foreign |   .3954497   .1158107     3.41   0.001     .1660296    .6248698
+       _cons |   .5668427   .2829587     2.00   0.048     .0063036    1.127382
+------------------------------------------------------------------------------
+output/tables/management-cohort-respondent.tex
+dir : seeout
+
+Average marginal effects                                   Number of obs = 115
+Model VCE: Robust
+
+Expression: Linear prediction, predict()
+dy/dx wrt:  1950.cohort_respondent 1955.cohort_respondent
+            1960.cohort_respondent 1965.cohort_respondent
+            1970.cohort_respondent 1975.cohort_respondent
+            1980.cohort_respondent 1985.cohort_respondent
+            1990.cohort_respondent
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+cohort_res~t |
+       1950  |  -.0753424   .4443961    -0.17   0.866    -.9556875    .8050028
+       1955  |   .2003113   .2598126     0.77   0.442    -.3143755    .7149981
+       1960  |   .2602627   .3932305     0.66   0.509    -.5187239    1.039249
+       1965  |   .5701421   .3661278     1.56   0.122    -.1551543    1.295439
+       1970  |   .4895105   .3855389     1.27   0.207    -.2742392     1.25326
+       1975  |   .1351342   .3664747     0.37   0.713    -.5908493    .8611177
+       1980  |   .3194087   .3422191     0.93   0.353    -.3585246    .9973421
+       1985  |   .5329354   .3728361     1.43   0.156      -.20565    1.271521
+       1990  |   .4749335   .3734202     1.27   0.206     -.264809    1.214676
+------------------------------------------------------------------------------
+Note: dy/dx for factor levels is the discrete change from the base level.
+
+Variables that uniquely identify margins: _deriv
+(file output/fig/cohort-respcontrol-marginsplot.png not found)
+file output/fig/cohort-respcontrol-marginsplot.png written in PNG format
+(start=1945, width=5)
+(file output/fig/cohort-respcontrol-histogram.png not found)
+file output/fig/cohort-respcontrol-histogram.png written in PNG format
 
 . predict management_p
 (option xb assumed; fitted values)
+(3 missing values generated)
 
 . 
 . foreach X in management operations monitoring targets people {
