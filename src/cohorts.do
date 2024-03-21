@@ -6,8 +6,12 @@ local T1 1945
 local T2 1995
 local k 5
 local offset 25
+rename first_year_in_market birth_year_entry
+
 replace birth_year_firm = birth_year_firm - `offset'
-foreach i in ceo respondent firm {
+replace birth_year_entry = birth_year_entry - `offset'
+
+foreach i in ceo respondent firm entry {
     generate cohort_`i' = birth_year_`i'
     replace cohort_`i' = `T1' if cohort_`i' <= `T1'
     replace cohort_`i' = `T2' if cohort_`i' > `T2' & !missing(cohort_`i')
@@ -17,7 +21,13 @@ foreach i in ceo respondent firm {
     generate byte goldrush_`i' = inrange(birth_year_`i', 1965, 1974)
 }
 replace birth_year_firm = birth_year_firm + `offset'
+replace birth_year_entry = birth_year_entry + `offset'
 replace cohort_firm = cohort_firm + `offset'
+replace cohort_entry = cohort_entry + `offset'
+
+foreach X in comp_tenure post_tenure {
+    replace `X' = int(`X'/`k') * `k'
+}
 
 tabulate cohort_firm
 tabulate cohort_ceo
@@ -26,10 +36,13 @@ tabulate modern_ceo modern_respondent
 tabulate modern_respondent goldrush_respondent
 
 summarize management [aw=weight], detail
-regress management i.cohort_firm [pw=weight], cluster(tax_id)
-outreg2 using "output/tables/management-cohort-firm.tex", replace tex(frag pr)
 regress management i.cohort_respondent [pw=weight], cluster(tax_id)
 outreg2 using "output/tables/management-cohort-resp.tex", replace tex(frag pr)
+
+foreach X in cohort_firm cohort_ceo cohort_respondent cohort_entry comp_tenure post_tenure {
+    regress management i.`X' [pw=weight], cluster(tax_id)
+    outreg2 using "output/tables/management-`X'.tex", replace tex(frag pr)
+}
 
 local ceo_X ceo
 local ceo_controls lnL foreign

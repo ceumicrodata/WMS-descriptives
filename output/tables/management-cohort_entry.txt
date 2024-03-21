@@ -1,0 +1,26 @@
+	(1)
+VARIABLES	management
+	
+1980.cohort_entry	1.005***
+	(0.152)
+1985.cohort_entry	0.350
+	(0.430)
+1990.cohort_entry	0.950***
+	(0.154)
+1995.cohort_entry	0.779***
+	(0.138)
+2000.cohort_entry	1.238***
+	(0.127)
+2005.cohort_entry	1.687***
+	(0.157)
+2010.cohort_entry	1.093***
+	(0.195)
+2015.cohort_entry	0.745***
+	(0.215)
+Constant	1.764***
+	(8.98e-08)
+	
+Observations	118
+R-squared	0.195
+Robust standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

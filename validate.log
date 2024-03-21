@@ -68,7 +68,7 @@ Notes:
              | firm_a~y firm_a~a
 -------------+------------------
 firm_age_s~y |   1.0000
-firm_age_d~a |   0.3001   1.0000
+firm_age_d~a |   0.2960   1.0000
 
 file output/fig/firm_age_validation.png written in PNG format
 (2 missing values generated)
