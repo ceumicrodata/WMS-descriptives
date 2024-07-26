@@ -1,0 +1,7 @@
+[deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+Kezdi = "48308a23-c29e-446c-b4c0-d9446a767439"
+Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
+Logging2 = "18cd0bd4-3461-488c-9dae-1a490b172243"
+LoggingExtras = "e6f89c97-d47a-5376-807f-9c37f3926c36"
+Missings = "e1d29d7a-bbdc-5cf2-9ac0-f12de2c33e28"
