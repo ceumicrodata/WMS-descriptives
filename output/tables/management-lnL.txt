@@ -1,16 +1,20 @@
-	(1)	(2)	(3)
-VARIABLES	management	management	management
-			
-lnL	0.455***	0.361***	0.326***
-	(0.0593)	(0.0589)	(0.0665)
-foreign		0.461***	0.437***
-		(0.109)	(0.111)
-exporter			0.196
-			(0.158)
-Constant	0.568*	0.856***	0.890***
-	(0.318)	(0.302)	(0.306)
-			
-Observations	118	118	118
-R-squared	0.284	0.369	0.380
-Robust standard errors in parentheses			
-*** p<0.01, ** p<0.05, * p<0.1			
+	(1)	(2)	(3)	(4)
+VARIABLES	management	management	management	management
+				
+lnL	0.382***	0.361***	0.398***	0.449***
+	(0.0615)	(0.0589)	(0.0679)	(0.0600)
+entrepreneur	-0.319**			
+	(0.128)			
+foreign		0.461***		
+		(0.109)		
+exporter			0.274	
+			(0.165)	
+expat				0.0991
+				(0.152)
+Constant	1.068***	0.856***	0.637**	0.578*
+	(0.352)	(0.302)	(0.320)	(0.319)
+				
+Observations	118	118	118	118
+R-squared	0.324	0.369	0.304	0.287
+Robust standard errors in parentheses				
+*** p<0.01, ** p<0.05, * p<0.1				

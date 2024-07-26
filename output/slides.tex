@@ -209,55 +209,86 @@ Attila Kiss (HUN-REN KRTK, CEU and KSH)}
 \includegraphics{fig/school-graduates.png}
 \end{frame}
 
-\begin{frame}{Why Micro \(\neq\) Macro}
-\protect\hypertarget{why-micro-neq-macro}{}
-\begin{block}{What we know}
-\protect\hypertarget{what-we-know}{}
-\begin{enumerate}
+\begin{frame}{Would you like to be an entrepreneur?}
+\protect\hypertarget{would-you-like-to-be-an-entrepreneur}{}
+\begin{figure}
+\centering
+\includegraphics{fig/lengyel1997.png}
+\caption{Lengyel, 1997, Fig 1}
+\end{figure}
+\end{frame}
+
+\begin{frame}{We know that\ldots{}}
+\protect\hypertarget{we-know-that}{}
+\begin{block}{Management matters}
+\protect\hypertarget{management-matters}{}
+\begin{itemize}
 \tightlist
 \item
-  Management matters
+  Firms with better management practices are more productive (Bloom et
+  al 2010).
 \item
-  Training works
-\item
-  Managers matter
-\end{enumerate}
-
-\pause
+  Management can be improved by intensive training (Bloom et al 2013,
+  Giorcelli 2019).
+\end{itemize}
 \end{block}
 
-\begin{block}{What we don't know}
-\protect\hypertarget{what-we-dont-know}{}
-\begin{enumerate}
+\begin{block}{Managers matter}
+\protect\hypertarget{managers-matter}{}
+\begin{itemize}
 \tightlist
 \item
-  What policy interventions can improve management for an entire
-  country?
+  Managers are important for firm performance (Bertrand and Schoar 2003,
+  Bennedsen et al 2007).
 \item
-  How to quantify the macro effects of these policies?
-\end{enumerate}
-
-\pause
-\end{block}
-
-\begin{block}{What we need}
-\protect\hypertarget{what-we-need}{}
-\begin{enumerate}
-\tightlist
-\item
-  Endogenous supply: how to incentivize people to become managers?
-\item
-  Selection: who will become managers?
-\item
-  Competition: what are the GE feedbacks of interventions?
-\end{enumerate}
+  Top CEOs are paid a lot (Gabaix and Landier 2008, Frydman et al 2010).
+\end{itemize}
 \end{block}
 \end{frame}
 
-\section{Setup and Data}\label{setup-and-data}
+\begin{frame}{Literature}
+\protect\hypertarget{literature}{}
+\begin{itemize}
+\tightlist
+\item
+  Large-scale management interventions: Italy (Giorcelli 2019), US
+  (Bianchi and Giorcelli 2022, Giorcelli 2023)
+\item
+  Large-scale education interventions: Italy (Bianchi and Giorcelli
+  2020), Colombia (Ferreyra et al 2023), Vietnam (Vu 2023)
+\item
+  Attitudes and histories of entrepreneurs in the transition period:
+  Lengyel György et al (1989\ldots), Laki and Szalai (2004, 2013), Alas
+  and Aarna (2016)
+\item
+  Long-lasting effects of socialism: Fuchs-Schündeln and Masella (2016),
+  Fuchs-Schündeln and Schündeln (2020)
+\end{itemize}
+\end{frame}
 
-\begin{frame}{Data}
-\protect\hypertarget{data}{}
+\begin{frame}{This paper}
+\protect\hypertarget{this-paper}{}
+\begin{enumerate}
+\tightlist
+\item
+  Study Hungarian managers and their management practices
+
+  \begin{itemize}
+  \tightlist
+  \item
+    administrative data (1985-2019)
+  \item
+    original survey (2018)
+  \end{itemize}
+\item
+  Explore cohort effects: how old was the manager in 1990?
+\end{enumerate}
+\end{frame}
+
+\section{Data}\label{data}
+
+\begin{frame}{Administrative Data}
+\protect\hypertarget{administrative-data}{}
 \begin{block}{Manager Data 1985-2019}
 \protect\hypertarget{manager-data-1985-2019}{}
 Universe of corporations (1m) and their CEOs (1.3m). Firm size
@@ -274,12 +305,45 @@ Full biographies (school, work experience, etc.) for 63k people in 2013.
 \protect\hypertarget{college-graduates}{}
 Number of gradues by degree and year.
 \end{block}
+
+\begin{block}{World Management Survey}
+\protect\hypertarget{world-management-survey}{}
+Survey of Hungarian manufacturing firms, 2018.
+\end{block}
 \end{frame}
 
-\section{World Management Survey}\label{world-management-survey}
+\begin{frame}{Large Firms are Overrepresented in Who is Who}
+\protect\hypertarget{large-firms-are-overrepresented-in-who-is-who}{}
+\includegraphics{fig/firm-wiw.png}
+\end{frame}
+
+\begin{frame}{Measuring Manager Quality}
+\protect\hypertarget{measuring-manager-quality}{}
+Log employment of firm \(i\) in year \(t\) in industry \(s\), with a
+mananager having entered in cohort \(c\) is \[
+\ln L_{icst} = \beta_1\text{manager\_age}_{ict} + \beta_2\text{firm\_age}_{ict}  + \mu_{c} + \xi_{st} + \epsilon_{ict}.
+\]
+
+Quality: \(\mu_c\)
+\end{frame}
+
+\begin{frame}{Quantity Up, Quality Down}
+\protect\hypertarget{quantity-up-quality-down}{}
+\includegraphics{fig/ceo-flow-with-FE.png}
+\end{frame}
+
+\section{World Management Survey}\label{world-management-survey-1}
 
 \begin{frame}{Methodology}
 \protect\hypertarget{methodology}{}
+Structured phone interview with operations manager or CEO. 40-60
+minutes.
+
+``What do you do when there is a production problem?'' ``How do you
+motivate your employees?'' ``What happens if you don't meet your
+target?''
+
+Scored on 18 dimensions, 1-5 scale. Higher is better.
 \end{frame}
 
 \begin{frame}{Hungarian wave}
@@ -313,6 +377,16 @@ Sample: 762 firms.
 \end{block}
 \end{frame}
 
+\begin{frame}{Where is Hungary?}
+\protect\hypertarget{where-is-hungary}{}
+\includegraphics{fig/management-means.png}
+\end{frame}
+
+\begin{frame}{Richer countries have better management}
+\protect\hypertarget{richer-countries-have-better-management}{}
+\includegraphics{fig/management-vs-gdp.png}
+\end{frame}
+
 \section{Validation}\label{validation}
 
 \begin{frame}{How old is your firm?}
@@ -343,6 +417,76 @@ Sample: 762 firms.
 \begin{frame}{\ldots if the respondent \textbf{is} the CEO}
 \protect\hypertarget{if-the-respondent-is-the-ceo}{}
 \includegraphics{fig/birth_year_validation_cleaned.png}
+\end{frame}
+
+\section{Management Scores}\label{management-scores}
+
+\begin{frame}{Larger foreign firms are better managed}
+\protect\hypertarget{larger-foreign-firms-are-better-managed}{}
+\input{tables/management-lnL.tex}
+\end{frame}
+
+\begin{frame}{Management improves labor productivity}
+\protect\hypertarget{management-improves-labor-productivity}{}
+\input{tables/outcomes-management.tex}
+\end{frame}
+
+\section{Cohort Effects}\label{cohort-effects}
+
+\begin{frame}{Distribution of birth years of respondents}
+\protect\hypertarget{distribution-of-birth-years-of-respondents}{}
+\includegraphics{fig/cohort-respondent-histogram.png}
+\end{frame}
+
+\begin{frame}{Distribution of birth years of CEOs}
+\protect\hypertarget{distribution-of-birth-years-of-ceos}{}
+\includegraphics{fig/cohort-ceo-histogram.png}
+\end{frame}
+
+\begin{frame}{Older respondents are worse managers}
+\protect\hypertarget{older-respondents-are-worse-managers}{}
+\includegraphics{fig/cohort-respondent-marginsplot.png}
+\end{frame}
+
+\begin{frame}{Older CEOs are worse managers}
+\protect\hypertarget{older-ceos-are-worse-managers}{}
+\includegraphics{fig/cohort-ceo-marginsplot.png}
+\end{frame}
+
+\begin{frame}{Cohort effects only matter for domestic CEOs}
+\protect\hypertarget{cohort-effects-only-matter-for-domestic-ceos}{}
+\includegraphics{fig/cohort-ceodomestic-marginsplot.png}
+\end{frame}
+
+\begin{frame}{\ldots not for expats}
+\protect\hypertarget{not-for-expats}{}
+\includegraphics{fig/cohort-ceoexpat-marginsplot.png}
+\end{frame}
+
+\section{Conclusion}\label{conclusion}
+
+\begin{frame}{Summary}
+\protect\hypertarget{summary}{}
+\begin{enumerate}
+\tightlist
+\item
+  Management scores meanigfully correlate with firm outcomes.
+\item
+  Hungarian managers are worse than in richer countries.
+\item
+  Especially those born before 1955.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Next Steps}
+\protect\hypertarget{next-steps}{}
+\begin{enumerate}
+\tightlist
+\item
+  Collect data from other countries: Germany, Poland.
+\item
+  Investigate the role of education and training in management quality.
+\end{enumerate}
 \end{frame}
 
 \end{document}

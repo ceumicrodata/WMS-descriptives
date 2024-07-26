@@ -1,0 +1,32 @@
+	(1)
+VARIABLES	management
+	
+5.comp_tenure	0.202
+	(0.265)
+10.comp_tenure	-0.00300
+	(0.259)
+15.comp_tenure	-0.0619
+	(0.282)
+20.comp_tenure	-0.236
+	(0.370)
+25.comp_tenure	-0.684**
+	(0.322)
+30.comp_tenure	-0.753**
+	(0.354)
+35.comp_tenure	0.324
+	(0.340)
+40.comp_tenure	-1.671***
+	(0.213)
+45.comp_tenure	-0.420
+	(0.382)
+50.comp_tenure	0.277
+	(0.245)
+60.comp_tenure	-0.0419
+	(0.222)
+Constant	2.935***
+	(0.213)
+	
+Observations	108
+R-squared	0.206
+Robust standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	
