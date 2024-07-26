@@ -1,6 +1,9 @@
 using Kezdi
 using Missings
 using CSV
+using Logging2, LoggingExtras
+current_logger = FileLogger("ceo.log", append=false, always_flush=true)
+redirect_stdout(current_logger)
 
 @use "input/merleg-LTS-2022/balance/balance_sheet_80_21.dta", clear
 
