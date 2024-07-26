@@ -1,6 +1,7 @@
 using Kezdi
-using Logging
-io = open
+using Logging2, LoggingExtras
+current_logger = FileLogger("ceo.log", append=false, always_flush=true)
+redirect_stdout(current_logger)
 
 @use "input/ceo-panel/ceo-panel.dta", clear
 @rename birth_year birth_year_opten

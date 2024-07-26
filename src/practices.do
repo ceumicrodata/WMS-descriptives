@@ -5,9 +5,13 @@ do "src/create/variables.do"
 
 regress management lnL [pw=weight], robust
 outreg2 using "output/tables/management-lnL.tex",replace tex(frag pr)
+regress management lnL entrepreneur [pw=weight], robust
+outreg2 using "output/tables/management-lnL.tex",replace tex(frag pr)
 regress management lnL foreign [pw=weight], robust
 outreg2 using "output/tables/management-lnL.tex", tex(frag pr)
-regress management lnL foreign exporter [pw=weight], robust
+regress management lnL exporter [pw=weight], robust
+outreg2 using "output/tables/management-lnL.tex", tex(frag pr)
+regress management lnL expat [pw=weight], robust
 outreg2 using "output/tables/management-lnL.tex", tex(frag pr)
 
 local outcomes lnQ TFP exporter 

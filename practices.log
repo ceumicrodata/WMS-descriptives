@@ -75,7 +75,6 @@ Notes:
 end of do-file
 
 . 
-. * FIXME: Geri, can you save these regression tables with outreg2 or estout?
 . regress management lnL [pw=weight], robust
 (sum of wgt is 199.2858448000001)
 
@@ -92,6 +91,32 @@ Linear regression                               Number of obs     =        118
          lnL |   .4549849   .0592973     7.67   0.000     .3375391    .5724306
        _cons |   .5680891   .3180214     1.79   0.077    -.0617924    1.197971
 ------------------------------------------------------------------------------
+
+. outreg2 using "output/tables/management-lnL.tex",replace tex(frag pr)
+output/tables/management-lnL.tex
+dir : seeout
+
+. regress management lnL entrepreneur [pw=weight], robust
+(sum of wgt is 199.2858448000001)
+
+Linear regression                               Number of obs     =        118
+                                                F(2, 115)         =      35.07
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.3243
+                                                Root MSE          =     .59908
+
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         lnL |   .3818581   .0615333     6.21   0.000     .2599724    .5037437
+entrepreneur |  -.3185431   .1283767    -2.48   0.015    -.5728326   -.0642537
+       _cons |   1.067653   .3524714     3.03   0.003     .3694747    1.765831
+------------------------------------------------------------------------------
+
+. outreg2 using "output/tables/management-lnL.tex",replace tex(frag pr)
+output/tables/management-lnL.tex
+dir : seeout
 
 . regress management lnL foreign [pw=weight], robust
 (sum of wgt is 199.2858448000001)
@@ -111,24 +136,53 @@ Linear regression                               Number of obs     =        118
        _cons |   .8558315   .3022814     2.83   0.005     .2570702    1.454593
 ------------------------------------------------------------------------------
 
-. regress management lnL foreign exporter [pw=weight], robust
+. outreg2 using "output/tables/management-lnL.tex", tex(frag pr)
+output/tables/management-lnL.tex
+dir : seeout
+
+. regress management lnL exporter [pw=weight], robust
 (sum of wgt is 199.2858448000001)
 
 Linear regression                               Number of obs     =        118
-                                                F(3, 114)         =      24.66
+                                                F(2, 115)         =      31.05
                                                 Prob > F          =     0.0000
-                                                R-squared         =     0.3796
-                                                Root MSE          =     .57655
+                                                R-squared         =     0.3045
+                                                Root MSE          =      .6078
 
 ------------------------------------------------------------------------------
              |               Robust
   management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
 -------------+----------------------------------------------------------------
-         lnL |   .3258157    .066542     4.90   0.000     .1939966    .4576349
-     foreign |   .4366383   .1113949     3.92   0.000     .2159658    .6573107
-    exporter |   .1960141   .1577617     1.24   0.217    -.1165107    .5085388
-       _cons |   .8904609    .305554     2.91   0.004     .2851608    1.495761
+         lnL |   .3984952    .067855     5.87   0.000     .2640875    .5329029
+    exporter |   .2737166   .1651633     1.66   0.100    -.0534402    .6008733
+       _cons |   .6372931   .3200949     1.99   0.049     .0032467     1.27134
 ------------------------------------------------------------------------------
+
+. outreg2 using "output/tables/management-lnL.tex", tex(frag pr)
+output/tables/management-lnL.tex
+dir : seeout
+
+. regress management lnL expat [pw=weight], robust
+(sum of wgt is 199.2858448000001)
+
+Linear regression                               Number of obs     =        118
+                                                F(2, 115)         =      29.25
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.2870
+                                                Root MSE          =      .6154
+
+------------------------------------------------------------------------------
+             |               Robust
+  management | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         lnL |   .4486869   .0599865     7.48   0.000     .3298652    .5675086
+       expat |   .0990549   .1515051     0.65   0.515    -.2010475    .3991574
+       _cons |   .5779538   .3190951     1.81   0.073    -.0541121     1.21002
+------------------------------------------------------------------------------
+
+. outreg2 using "output/tables/management-lnL.tex", tex(frag pr)
+output/tables/management-lnL.tex
+dir : seeout
 
 . 
 . local outcomes lnQ TFP exporter 
@@ -136,7 +190,15 @@ Linear regression                               Number of obs     =        118
 . 
 . foreach Y in `outcomes' {
   2.     regress `Y' management lnL foreign [pw=weight], robust
-  3. }
+  3.     if "`Y'" == "lnQ"{
+  4.         outreg2 using "output/tables/outcomes-management.tex",replace tex(
+> frag pr)
+  5.     }
+  6.     else {
+  7.         outreg2 using "output/tables/outcomes-management.tex", tex(frag pr
+> )
+  8.     }
+  9. }
 (sum of wgt is 199.2858448000001)
 
 Linear regression                               Number of obs     =        118
@@ -154,6 +216,8 @@ Linear regression                               Number of obs     =        118
      foreign |    .107757   .2174445     0.50   0.621     -.322999    .5385129
        _cons |   8.167166   .6817391    11.98   0.000     6.816646    9.517686
 ------------------------------------------------------------------------------
+output/tables/outcomes-management.tex
+dir : seeout
 (sum of wgt is 194.0050857000001)
 
 Linear regression                               Number of obs     =        114
@@ -171,6 +235,8 @@ Linear regression                               Number of obs     =        114
      foreign |     .03808   .0419815     0.91   0.366    -.0451175    .1212775
        _cons |  -.0901221   .1477753    -0.61   0.543     -.382978    .2027339
 ------------------------------------------------------------------------------
+output/tables/outcomes-management.tex
+dir : seeout
 (sum of wgt is 199.2858448000001)
 
 Linear regression                               Number of obs     =        118
@@ -188,6 +254,8 @@ Linear regression                               Number of obs     =        118
      foreign |   .0832718   .0703114     1.18   0.239    -.0560145    .2225582
        _cons |  -.2484508   .2354724    -1.06   0.294    -.7149198    .2180182
 ------------------------------------------------------------------------------
+output/tables/outcomes-management.tex
+dir : seeout
 
 .  
 . 

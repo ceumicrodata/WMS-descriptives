@@ -17,13 +17,15 @@ rename emp employment
 mvdecode _all, mv(-99)
 duplicates drop tax_id, force
 
-* some respondents reported year of founding
-replace firm_age = 2018 - firm_age if firm_age > 1900
-replace firm_age = . if firm_age >= 100
-generate byte round_age = int(firm_age / 10) * 10 == firm_age
-* if old age is not rounded, it is likely a foundation year
-replace firm_age = 2018 - (1900+firm_age) if (firm_age > 65) & !missing(firm_age) & !round_age
-drop round_age
+foreach age in firm_age plant_age comp_tenure post_tenure {
+    * some respondents reported year of founding
+    replace `age' = 2018 - `age' if `age' > 1900
+    replace `age' = . if `age' >= 100
+    generate byte round_age = int(`age' / 10) * 10 == `age'
+    * if old age is not rounded, it is likely a foundation year
+    replace `age' = 2018 - (1900+`age') if (`age' > 60) & !missing(`age') & !round_age
+    drop round_age
+}
 
 local production termel gyart gyárt uzem üzem oper techn műszaki projekt telephely
 local ceo ügyvezet vezér elnük vezer cégvez tulaj ugyvez
