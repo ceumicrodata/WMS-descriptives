@@ -17,15 +17,16 @@ setdf(df)
 @rename originalid tax_id
 
 @generate aux_cond = year @if !ismissing(sales_clean) && !ismissing(emp)
-@egen last_year = max(year), by(tax_id)
+@replace aux_cond = 0 @if ismissing(aux_cond)
+@egen last_year = maximum(aux_cond), by(tax_id)
 @tabulate last_year
 @keep @if last_year == year
 @drop last_year aux_cond
 
-cols = [:sales_clean, :emp, :tanass_clean, :export, :ranyag, :wbill, :immat, :final_netgep]
+cols = [:sales_clean, :emp, :tanass_clean, :Export, :ranyag, :wbill, :immat, :final_netgep, :county,  :teaor_raw, :teaor03_2d, :teaor08_2d]
 df = getdf()
 for col in cols
     df[!,col] = collect(Missings.replace(df[!,col], 0))
 end
 
-CSV.write("temp/balance.dta", df)
+CSV.write("temp/balance.csv", df)

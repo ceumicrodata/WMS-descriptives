@@ -1,5 +1,7 @@
 [deps]
+Arrow = "69666777-d1a9-59fb-9406-91d4454c9d45"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Kezdi = "48308a23-c29e-446c-b4c0-d9446a767439"
 Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
 Logging2 = "18cd0bd4-3461-488c-9dae-1a490b172243"
