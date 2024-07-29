@@ -1,28 +1,23 @@
 using Kezdi
-using Missings
-using CSV
-using Logging2, LoggingExtras
-current_logger = FileLogger("ceo.log", append=false, always_flush=true)
-redirect_stdout(current_logger)
+using Arrow
 
-@use "input/merleg-LTS-2022/balance/balance_sheet_80_21.dta", clear
+left(text::AbstractString, n::Int) = n > 0 ? text[1:min(n, end)] : text[1:end-min(-n, end)]
+right(text::AbstractString, n::Int) = n > 0 ? text[end-min(n, end)+1:end] : text[min(-n, end)+1:end]
 
-@keep @if year > 2016 && year < 2018
-@keep frame_id originalid year county fo3 teaor* foundyear sales_clean emp tanass_clean export ranyag wbill immat final_netgep
-@generate long frame_id_numeric = Float64(frame_id[3:end]) @if frame_id[1:2] == "ft"
-@keep @if !ismissing(originalid) & !ismissing(frame_id_numeric)
-@rename originalid tax_id
+df = @use "input/merleg-LTS-2022/balance/balance_sheet_80_21.dta", clear
+# this is necessary because `export` is a reserved word in Julia
+df.Export = df.export
+setdf(df)
 
-#xtset tax_id year
-@gen aux_cond = year @if !ismissing(sales_clean) && !ismissing(emp)
-@egen last_year = maximum(aux_cond), by(tax_id)
-@tabulate last_year
-@keep @if last_year == year
-@drop last_year aux_cond
+@generate frame_id_numeric = parse(Int64, right(frame_id, -2)) @if left(frame_id, 1) == "f"
+@replace frame_id_numeric = originalid @if ismissing(frame_id_numeric) && originalid > 0
+@replace frame_id_numeric = -originalid @if ismissing(frame_id_numeric) && originalid < 0
 
-cols = [:sales_clean, :emp, :tanass_clean, :export, :ranyag, :wbill, :immat, :final_netgep]
-for col in cols
-    df[!,col] = collect(Missings.replace(df[!,col], 0))
-end
+@generate id_type = 1 @if left(frame_id, 2) == "ft"
+@replace id_type = 2 @if left(frame_id, 2) == "fc"
+@replace id_type = 3 @if ismissing(id_type) && originalid > 0
+@replace id_type = 4 @if ismissing(id_type) && originalid < 0
 
-CSV.write("temp/balance.csv", df)
+@keep frame_id_numeric id_type year sales emp tanass Export egyebbev aktivalt ranyag wbill persexp kecs ereduzem pretax jetok immat teaor08_2d foundyear gdp tax ppi21 teaor08_1d county final_netgep so3 mo3 do3 fo3
+
+Arrow.write("temp/balance.arrow", df)
