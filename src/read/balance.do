@@ -12,6 +12,4 @@ tabulate last_year
 keep if last_year == year
 drop last_year
 
-mvencode sales_clean emp tanass_clean export ranyag wbill immat final_netgep county teaor_raw teaor03_2d teaor08_2d, mv(0) override
-
-export delimited "temp/balance-stata.csv", replace
+mvencode sales_clean emp tanass_clean export ranyag wbill immat final_netgep county teaor_raw teaor03_2d teaor_08_2d, mv(0) override
