@@ -1,11 +1,9 @@
 using Kezdi
-using Logging2, LoggingExtras
-current_logger = FileLogger("ceo.log", append=false, always_flush=true)
-redirect_stdout(current_logger)
 
 @use "input/ceo-panel/ceo-panel.dta", clear
 @rename birth_year birth_year_opten
 # propagate birth year to all years
+@mvencode birth_year_opten, mv(99999)
 @egen byear = minimum(birth_year_opten), by(person_id)
 @replace birth_year_opten = byear @if missing(birth_year_opten)
 @drop byear
@@ -22,7 +20,7 @@ redirect_stdout(current_logger)
 
 # keep the most senior outsider as the unique ceo
 @generate priority = (first_year_in_market - 1940) + 100*(1-outsider)
-@egen rank = rank(priority), by(frame_id_numeric,year) unique
+@egen rank = rank(priority), by(frame_id_numeric, year)
 @keep @if rank==1
 
 @gen aux_cond = year @if year <= 2017
@@ -43,5 +41,5 @@ redirect_stdout(current_logger)
 
 @generate in_cegjegyzek = 1
 
-CSV.write("temp/ceo.dta", getdf())
+@save "temp/ceo.dta", replace
 
