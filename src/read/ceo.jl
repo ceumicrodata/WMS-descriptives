@@ -10,18 +10,25 @@ using Kezdi
 
 # use oldest reported entry date, even if not in data
 # if spell_begin not filled in, use observed year in the data
-@egen first_year_in_market = minimum(minimum([spell_begin, year])), by(person_id)
+@egen min_year = minimum(year), by(person_id)
+@mvencode spell_begin, mv(99999)
+@egen min_spell = minimum(spell_begin), by(person_id)
+@egen first_year_in_market = minimum([min_spell, min_year]), by(person_id)
+@drop min_spell min_year
 
 # flag those that were owners first as "entrepreneurs"
 @replace first_year_as_owner = missing @if first_year_as_owner > year
+@mvencode first_year_as_owner, mv(99999)
 @generate entrepreneur = (first_year_as_owner <= minimum([spell_begin, year]))
+@replace entrepreneur = false @if ismissing(entrepreneur)
 @drop outsider
 @generate outsider = !entrepreneur
 
 # keep the most senior outsider as the unique ceo
 @generate priority = (first_year_in_market - 1940) + 100*(1-outsider)
-@sort priority
-@egen rank = _n, by(priority, frame_id_numeric, year)
+@egen aux_rank = _n, by(priority, frame_id_numeric, year)
+@egen rank = maximum(aux_rank)-_n+1, by(priority, frame_id_numeric, year)
+@drop aux_rank
 @keep @if rank==1
 
 @generate cond = cond(year <= 2017, year, -99)
