@@ -1,14 +1,14 @@
 {
     "inputs": {
-        "WMS-2014": {
-            "content_id": "bf644a3225138899b56784dde252327bff4d5bbd2b04b6a66093e110e1d250e54017a9c87cc58693e903fa30ab3ca8c01730e49c44babe47e8715fd15b164da4",
-            "freeze_time": "20231212T062332712292-0800",
-            "kind": "ff76986a9be84325c31148bcb633865e-f6aa9a29-af3c-45b3-a148-1a7d60f87250"
-        },
         "ceo-panel": {
             "content_id": "0ecd914310f891f70841b1f968316f216428dfa6279e412d07ea0459a990c7564b078037dab28c74896584fcf83f025202d48c28ec0945f2544beadb415f3ed4",
             "freeze_time": "20231130T200524472589+0100",
             "kind": "8f68500668824a7b8b9486f034a6aded-e7db5a61-97b7-4d28-8e22-3ed70eade94b"
+        },
+        "german-firm-locations": {
+            "content_id": "c2d3b5317bea686e89800415bb7eb09f4843e4e74e44571d761efe8093205bf819edef6fdb4e0abfcbab35f850a3f4b12f8485ca4d0d70942ae9f76058ea9c95",
+            "freeze_time": "20260220T161131980389+0100",
+            "kind": "5d8dbfc61365adcd5d178dccdbe7516d-e1138ff0-3564-425b-a6bd-c7713fecaae3"
         },
         "merleg-LTS-2022": {
             "content_id": "a7319547162af9f3eb71dbe4824f40dcee7dab3a0eabfc6e126cd2076e48a7a08fc5c1a37f39ce61d4b4bf930021015210e8f95f8282acb5c71b66fc7ce3113c",
@@ -19,6 +19,11 @@
             "content_id": "0fd24e1dfbfb1be12f426c950f196ce3eae4ac2968670f73b1a807831ede40864bcfcde197079d2a4a8d4f4a9ee4caf50a84f2c04f3e5d7fd67a9ed4330877c8",
             "freeze_time": "20200505T221635610430+0200",
             "kind": "c2275dbd7511cfab8db77cb2db94365d-7e36d060-db3d-4598-956b-a4f24425aa4d"
+        },
+        "wms-special-access": {
+            "content_id": "1114908316208d74465ae835475e845ff70c125fc0f6672eaa052b94a762bd98c35b04777ee98772b98292e36418a7ec24e6a62dec5f739b38ca21907a886271",
+            "freeze_time": "20250829T101414742256+0200",
+            "kind": "50f763b9e2936825e06b2b51840f0753-3ec323a6-4cb0-444b-8115-e5055cc21614"
         }
     },
     "kind": "94580138bf8280305d518e08372acf9e-25079dfa-dd3c-4259-af3a-c313f7a4ef9c"

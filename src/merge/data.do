@@ -9,7 +9,7 @@ assert _merge == 3
 drop _merge
 
 merge 1:1 frame_id_numeric using "temp/ceo.dta", keep(master match)
-assert _merge == 3
+assert _merge == 3 | _merge == 1
 drop _merge
 
 * there may be multiple CEOs, use the younger

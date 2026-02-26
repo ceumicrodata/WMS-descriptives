@@ -3,24 +3,24 @@ VARIABLES	management
 	
 1980.cohort_entry	1.005***
 	(0.152)
-1985.cohort_entry	0.350
-	(0.430)
-1990.cohort_entry	0.950***
-	(0.154)
-1995.cohort_entry	0.779***
-	(0.138)
-2000.cohort_entry	1.238***
-	(0.127)
+1985.cohort_entry	0.383
+	(0.519)
+1990.cohort_entry	1.039***
+	(0.153)
+1995.cohort_entry	0.798***
+	(0.149)
+2000.cohort_entry	1.218***
+	(0.132)
 2005.cohort_entry	1.687***
 	(0.157)
-2010.cohort_entry	1.093***
-	(0.195)
+2010.cohort_entry	1.175***
+	(0.192)
 2015.cohort_entry	0.745***
-	(0.215)
-Constant	1.764***
-	(8.98e-08)
+	(0.216)
+Constant	1.764
 	
-Observations	118
-R-squared	0.195
+	
+Observations	111
+R-squared	0.194
 Robust standard errors in parentheses	
 *** p<0.01, ** p<0.05, * p<0.1	

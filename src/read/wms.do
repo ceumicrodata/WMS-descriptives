@@ -14,6 +14,13 @@ replace emp = "E) 1000+"	if employment > 1000
 rename employment employment_from_balance
 rename emp employment
 
+generate comp = "0 competitors" if competition == 0
+replace comp = "1-4 competitors" if competition < 5 & competition > 0
+replace comp = "5-9 competitors" if competition < 10 & competition > 4
+replace comp = "10+ competitors" if competition > 10
+drop competition
+ren comp competition
+
 mvdecode _all, mv(-99)
 duplicates drop tax_id, force
 

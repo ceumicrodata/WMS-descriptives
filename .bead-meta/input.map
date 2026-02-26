@@ -2,7 +2,10 @@
     "WMS-2014": "WMS-2014",
     "WMS-sample": "WMS-sample",
     "ceo-panel": "ceo-panel",
+    "german-firm-locations": "german-firm-locations",
     "merleg-LTS-2022": "merleg-LTS-2022",
+    "orbis-key-ownership-raw": "orbis-key-ownership-raw",
     "wms-Hungary-2018": "wms-Hungary-2018",
-    "wms-meta-raw": "wms-meta-raw"
+    "wms-meta-raw": "wms-meta-raw",
+    "wms-special-access": "wms-special-access"
 }
